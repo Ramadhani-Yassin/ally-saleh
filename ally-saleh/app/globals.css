@@ -79,6 +79,18 @@ body.home-page:not(.admin-body) {
   padding-top: 1rem;
 }
 
+/* No page scroll behind mobile home menu until closed (backdrop or ×) */
+html.home-mobile-nav-open {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  height: 100%;
+}
+
+html.home-mobile-nav-open body {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
 .app-container {
   max-width: 1440px;
   margin: 0 auto;
@@ -368,7 +380,7 @@ body.dark-theme .home-hero-board {
 .home-hero-inner {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.15rem;
+  gap: 1.3rem;
   align-items: center;
 }
 
@@ -411,7 +423,7 @@ body.dark-theme .home-hero-board {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--accent-blue);
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.85rem;
 }
 
 .home-hero-title {
@@ -419,11 +431,11 @@ body.dark-theme .home-hero-board {
   font-weight: 700;
   line-height: 1.22;
   color: var(--text-primary);
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.28rem;
 }
 
 .home-hero-title--typing {
-  min-height: 2.75em;
+  min-height: 2.1em;
 }
 
 .home-hero-typing-line {
@@ -718,13 +730,19 @@ body.dark-theme .home-hero-media-frame {
   }
 
   .home-hero-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(260px, min(34vw, 380px));
-    gap: 0.95rem 1.15rem;
+    /* Keep copy + portrait grouped; avoid stretching to far left/right on wide screens */
+    width: 100%;
+    max-width: min(100%, 1020px);
+    margin-left: auto;
+    margin-right: auto;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, min(32vw, 360px));
+    column-gap: 1.2rem;
+    row-gap: 1rem;
     align-items: center;
   }
 
   .home-hero-text {
-    padding-right: 0.35rem;
+    padding-right: 0.5rem;
     align-self: center;
   }
 
@@ -1333,6 +1351,31 @@ footer {
   border-top: 1px solid var(--footer-border);
   color: var(--text-muted);
   font-size: 0.75rem;
+}
+
+.footer-primary {
+  display: inline;
+}
+
+.footer-powered {
+  margin: 0.35rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.footer-powered strong {
+  font-weight: 700;
+}
+
+.footer-powered a {
+  color: var(--accent-blue);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.footer-powered a:hover {
+  text-decoration: underline;
 }
 
 /* ——— Admin area (login + dashboard shell) ——— */

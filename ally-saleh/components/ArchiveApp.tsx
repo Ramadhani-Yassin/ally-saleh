@@ -39,6 +39,21 @@ export function ArchiveApp() {
     return () => document.body.classList.remove("home-page");
   }, []);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    if (mobileNavOpen) {
+      root.classList.add("home-mobile-nav-open");
+      document.body.classList.add("home-mobile-nav-open");
+    } else {
+      root.classList.remove("home-mobile-nav-open");
+      document.body.classList.remove("home-mobile-nav-open");
+    }
+    return () => {
+      root.classList.remove("home-mobile-nav-open");
+      document.body.classList.remove("home-mobile-nav-open");
+    };
+  }, [mobileNavOpen]);
+
   useLayoutEffect(() => {
     const el = headerWrapRef.current;
     if (!el) return;
@@ -448,8 +463,23 @@ export function ArchiveApp() {
       </main>
 
       <footer id="site-footer">
-        <i className="bx bx-copyright" aria-hidden /> Ally Saleh — Digital
-        Archive · Documents by the author
+        <div className="footer-primary">
+          <i className="bx bx-copyright" aria-hidden /> Ally Saleh — Digital
+          Archive · Documents by the author
+        </div>
+        <br />
+        <p className="footer-powered">
+          <strong>
+            Proudly powered by{" "}
+            <a
+              href="https://www.chwakahouse.co.tz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              The Chwaka House
+            </a>
+          </strong>
+        </p>
       </footer>
     </div>
   );
