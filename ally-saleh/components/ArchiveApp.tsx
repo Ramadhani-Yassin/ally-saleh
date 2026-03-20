@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { HomeHero } from "@/components/HomeHero";
 import { useArchiveWorks } from "@/hooks/useArchiveWorks";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
 import type { ArchiveWork } from "@/lib/archive-data";
@@ -31,6 +32,7 @@ export function ArchiveApp() {
   const [spacerH, setSpacerH] = useState(96);
   const [search, setSearch] = useState("");
   const [sectionFilter, setSectionFilter] = useState<SectionFilter>("all");
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
     document.body.classList.add("home-page");
@@ -68,6 +70,50 @@ export function ArchiveApp() {
   const showPdfBlock = sectionFilter !== "interview";
   const showInterviewBlock = sectionFilter !== "pdf";
 
+  const closeMobileNav = useCallback(() => setMobileNavOpen(false), []);
+
+  const scrollToSection = useCallback((elementId: string) => {
+    window.setTimeout(() => {
+      document.getElementById(elementId)?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 100);
+  }, []);
+
+  const goHome = useCallback(() => {
+    closeMobileNav();
+    scrollToSection("hero");
+  }, [closeMobileNav, scrollToSection]);
+
+  const goArchive = useCallback(() => {
+    closeMobileNav();
+    setSectionFilter("all");
+    scrollToSection("archive-works");
+  }, [closeMobileNav, scrollToSection]);
+
+  const goPublishedPdf = useCallback(() => {
+    closeMobileNav();
+    setSectionFilter("pdf");
+    scrollToSection("section-pdf");
+  }, [closeMobileNav, scrollToSection]);
+
+  const goInterviews = useCallback(() => {
+    closeMobileNav();
+    setSectionFilter("interview");
+    scrollToSection("section-interviews");
+  }, [closeMobileNav, scrollToSection]);
+
+  const goFooter = useCallback(() => {
+    closeMobileNav();
+    scrollToSection("site-footer");
+  }, [closeMobileNav, scrollToSection]);
+
+  const exploreWorks = useCallback(() => {
+    setSectionFilter("all");
+    scrollToSection("archive-works");
+  }, [scrollToSection]);
+
   const copyToClipboard = useCallback((link: string, t: string) => {
     navigator.clipboard
       .writeText(link)
@@ -94,7 +140,16 @@ export function ArchiveApp() {
     <div className="app-container app-container--home">
       <div ref={headerWrapRef} className="home-header-fixed">
         <header className="header-subtle header-subtle--floating">
-          <div className="header-main">
+          <div className="header-main header-main--home">
+            <button
+              type="button"
+              className="home-nav-toggle"
+              aria-expanded={mobileNavOpen}
+              aria-label="Open menu"
+              onClick={() => setMobileNavOpen((o) => !o)}
+            >
+              <i className="bx bx-menu" aria-hidden />
+            </button>
             <div className="brand">
               <h1>
                 <i className="bx bx-book-open" aria-hidden />
@@ -102,6 +157,42 @@ export function ArchiveApp() {
               </h1>
               <p>Documents archive · Published PDFs & Interview Resources</p>
             </div>
+            <nav
+              className="home-header-nav"
+              aria-label="Page sections"
+            >
+              <button type="button" className="home-nav-link" onClick={goHome}>
+                Home
+              </button>
+              <button
+                type="button"
+                className="home-nav-link"
+                onClick={goPublishedPdf}
+              >
+                Published PDF
+              </button>
+              <button
+                type="button"
+                className="home-nav-link"
+                onClick={goInterviews}
+              >
+                Interviews
+              </button>
+              <button
+                type="button"
+                className="home-nav-link"
+                onClick={goArchive}
+              >
+                Archive
+              </button>
+              <button
+                type="button"
+                className="home-nav-link"
+                onClick={goFooter}
+              >
+                Footer
+              </button>
+            </nav>
             <div className="header-actions">
               <button
                 type="button"
@@ -123,6 +214,96 @@ export function ArchiveApp() {
         </header>
       </div>
 
+      {mobileNavOpen ? (
+        <button
+          type="button"
+          className="home-nav-backdrop"
+          aria-label="Close menu"
+          onClick={closeMobileNav}
+        />
+      ) : null}
+
+      <aside
+        className={`home-nav-drawer ${mobileNavOpen ? "home-nav-drawer--open" : ""}`}
+        aria-hidden={!mobileNavOpen}
+      >
+        <div className="home-nav-drawer-panel">
+          <div className="home-nav-drawer-head">
+            <span className="home-nav-drawer-title">Menu</span>
+            <button
+              type="button"
+              className="home-nav-drawer-close"
+              aria-label="Close menu"
+              onClick={closeMobileNav}
+            >
+              <i className="bx bx-x" aria-hidden />
+            </button>
+          </div>
+          <div className="home-nav-drawer-links">
+            <button type="button" className="home-drawer-link" onClick={goHome}>
+              <i className="bx bx-home-alt" aria-hidden />
+              Home
+            </button>
+            <button
+              type="button"
+              className="home-drawer-link"
+              onClick={goPublishedPdf}
+            >
+              <i className="bx bxs-file-pdf" aria-hidden />
+              Published PDF
+            </button>
+            <button
+              type="button"
+              className="home-drawer-link"
+              onClick={goInterviews}
+            >
+              <i className="bx bx-microphone" aria-hidden />
+              Interviews
+            </button>
+            <button
+              type="button"
+              className="home-drawer-link"
+              onClick={goArchive}
+            >
+              <i className="bx bx-archive" aria-hidden />
+              Archive
+            </button>
+            <button
+              type="button"
+              className="home-drawer-link"
+              onClick={goFooter}
+            >
+              <i className="bx bx-chevrons-down" aria-hidden />
+              Footer
+            </button>
+          </div>
+          <div className="home-nav-drawer-divider" />
+          <div className="home-nav-drawer-actions">
+            <button
+              type="button"
+              className="home-drawer-action"
+              onClick={() => {
+                toggleTheme();
+              }}
+            >
+              <i
+                className={isDarkTheme ? "bx bx-sun" : "bx bx-moon"}
+                aria-hidden
+              />
+              {isDarkTheme ? "Light mode" : "Dark mode"}
+            </button>
+            <Link
+              href="/admin/login"
+              className="home-drawer-action home-drawer-action--admin"
+              onClick={closeMobileNav}
+            >
+              <i className="bx bx-lock-alt" aria-hidden />
+              Admin console
+            </Link>
+          </div>
+        </div>
+      </aside>
+
       <div
         className="home-header-spacer"
         style={{ height: spacerH }}
@@ -130,7 +311,9 @@ export function ArchiveApp() {
       />
 
       <main className="home-main">
-        <div className="content-toolbar" role="search">
+        <HomeHero onScrollToArchive={exploreWorks} />
+
+        <div id="archive-works" className="content-toolbar" role="search">
           <label className="content-toolbar-search">
             <i className="bx bx-search" aria-hidden />
             <input
@@ -168,7 +351,10 @@ export function ArchiveApp() {
 
         {showPdfBlock ? (
           <>
-            <div className="section-header section-header--first">
+            <div
+              id="section-pdf"
+              className="section-header section-header--first"
+            >
               <i className="bx bx-file-pdf" aria-hidden />
               <h2>Published PDF Works</h2>
               <p>Readable manuscripts & essays</p>
@@ -215,7 +401,7 @@ export function ArchiveApp() {
 
         {showInterviewBlock ? (
           <>
-            <div className="section-header">
+            <div id="section-interviews" className="section-header">
               <i className="bx bx-microphone" aria-hidden />
               <h2>Interviews & External Resources</h2>
               <p>Conversations, podcasts & features</p>
@@ -261,7 +447,7 @@ export function ArchiveApp() {
         ) : null}
       </main>
 
-      <footer>
+      <footer id="site-footer">
         <i className="bx bx-copyright" aria-hidden /> Ally Saleh — Digital
         Archive · Documents by the author
       </footer>
