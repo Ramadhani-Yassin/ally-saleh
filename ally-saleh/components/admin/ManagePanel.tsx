@@ -31,7 +31,7 @@ function filterWorksForList(
 export function ManagePanel() {
   const { works, persist } = useArchiveWorks();
   const [editId, setEditId] = useState<string | null>(null);
-  const [category, setCategory] = useState<WorkCategory>("pdf");
+  const [category, setCategory] = useState<WorkCategory>("poetry");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
@@ -71,7 +71,7 @@ export function ManagePanel() {
       setTitle("");
       setDescription("");
       setUrl("");
-      setCategory("pdf");
+      setCategory("poetry");
     }
     persist(next);
     appendActivityLog("Archive entry deleted", id);
@@ -113,7 +113,7 @@ export function ManagePanel() {
     setTitle("");
     setDescription("");
     setUrl("");
-    setCategory("pdf");
+    setCategory("poetry");
     persist(next);
     appendActivityLog(
       wasEdit ? "Archive entry updated" : "Archive entry added",
@@ -131,7 +131,7 @@ export function ManagePanel() {
     setTitle("");
     setDescription("");
     setUrl("");
-    setCategory("pdf");
+    setCategory("poetry");
     persist([...DEMO_WORKS]);
     appendActivityLog("Archive restored to demo data");
     setPage(1);
@@ -145,8 +145,8 @@ export function ManagePanel() {
     <div className="admin-page-inner admin-page-inner--wide">
       <h1 className="admin-page-title">Library management</h1>
       <p className="admin-page-lead">
-        Add, edit, or remove PDF works and interview / external links. Changes
-        sync to the public archive in this browser.
+        Add, edit, or remove poetry, short stories, and online resource links.
+        Changes sync to the public archive in this browser.
       </p>
 
       <div className="admin-panel">
@@ -165,8 +165,9 @@ export function ManagePanel() {
                 setCategory(e.target.value as WorkCategory)
               }
             >
-              <option value="pdf">📄 Readable PDF</option>
-              <option value="interview">🎙️ Interview / External Resource</option>
+              <option value="poetry">Poetry (mashairi)</option>
+              <option value="short-story">Short story (hadithi fupi)</option>
+              <option value="resource">Online resource (kiungo)</option>
             </select>
           </div>
           <div className="form-group">
@@ -195,7 +196,7 @@ export function ManagePanel() {
           </div>
           <div className="form-group">
             <label>
-              <i className="bx bx-link" aria-hidden /> URL (PDF or link)
+              <i className="bx bx-link" aria-hidden /> URL (PDF, file, or page)
             </label>
             <input
               type="text"
@@ -239,8 +240,9 @@ export function ManagePanel() {
               {(
                 [
                   { id: "all" as const, label: "All" },
-                  { id: "pdf" as const, label: "PDF" },
-                  { id: "interview" as const, label: "Interviews" },
+                  { id: "poetry" as const, label: "Poetry" },
+                  { id: "short-story" as const, label: "Short stories" },
+                  { id: "resource" as const, label: "Online" },
                 ] as const
               ).map(({ id, label }) => (
                 <button
@@ -285,16 +287,22 @@ export function ManagePanel() {
                   <div className="admin-item-info">
                     <i
                       className={
-                        work.category === "pdf"
-                          ? "bx bxs-file-pdf"
-                          : "bx bx-microphone"
+                        work.category === "short-story"
+                          ? "bx bx-book-open"
+                          : work.category === "resource"
+                            ? "bx bx-link-external"
+                            : "bx bx-book-heart"
                       }
                       aria-hidden
                     />
                     <span>
                       <strong>{work.title}</strong>{" "}
                       <span className="category-badge">
-                        {work.category === "pdf" ? "PDF" : "Interview"}
+                        {work.category === "short-story"
+                          ? "Short story"
+                          : work.category === "resource"
+                            ? "Online"
+                            : "Poetry"}
                       </span>
                     </span>
                   </div>

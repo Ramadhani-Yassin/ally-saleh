@@ -1,4 +1,4 @@
-export type WorkCategory = "pdf" | "interview";
+export type WorkCategory = "poetry" | "short-story" | "resource";
 
 export type ArchiveWork = {
   id: string;
@@ -8,55 +8,118 @@ export type ArchiveWork = {
   url: string;
 };
 
-export const STORAGE_WORKS_KEY = "ally_saleh_works_v2";
+export const STORAGE_WORKS_KEY = "ally_saleh_works_v3";
 export const STORAGE_THEME_KEY = "ally_saleh_theme";
+
+/** Placeholder base — replace each URL in admin when real links are ready. */
+const PLACEHOLDER_PDF =
+  "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
 
 export const DEMO_WORKS: ArchiveWork[] = [
   {
-    id: "w1",
-    category: "pdf",
-    title: "Urban Cartographies",
-    description:
-      "A multidisciplinary study on urban memory and spatial narratives.",
-    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+    id: "poetry-changamka",
+    category: "poetry",
+    title: "Changamka",
+    description: "Kitabu cha mashairi — Ally Saleh.",
+    url: `${PLACEHOLDER_PDF}#changamka`,
   },
   {
-    id: "w2",
-    category: "pdf",
-    title: "The Neumorphic Notebook",
-    description:
-      "Explorations in modern interface design and architectural sketches.",
-    url: "https://www.africau.edu/images/default/sample.pdf",
+    id: "poetry-neno",
+    category: "poetry",
+    title: "Neno",
+    description: "Kitabu cha mashairi — Ally Saleh.",
+    url: `${PLACEHOLDER_PDF}#neno`,
   },
   {
-    id: "w3",
-    category: "interview",
-    title: "Ally Saleh on Digital Storytelling",
-    description:
-      "In-depth interview about narrative futures and creative technology.",
-    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    id: "poetry-tupo",
+    category: "poetry",
+    title: "Tupo",
+    description: "Kitabu cha mashairi — Ally Saleh.",
+    url: `${PLACEHOLDER_PDF}#tupo`,
   },
   {
-    id: "w4",
-    category: "pdf",
-    title: "Whispers in the Stacks",
-    description: "Short fiction collection inspired by hidden libraries.",
-    url: "https://file-examples.com/storage/fe679d2b17f6e9b2099b3e9/2017/10/file-sample_150kB.pdf",
+    id: "poetry-kikohozi",
+    category: "poetry",
+    title: "Kikohozi",
+    description: "Kitabu cha mashairi — Ally Saleh.",
+    url: `${PLACEHOLDER_PDF}#kikohozi`,
   },
   {
-    id: "w5",
-    category: "interview",
-    title: "The Future of Publishing",
-    description: "Podcast feature with leading literary voices.",
-    url: "https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT",
+    id: "story-jumba-maro",
+    category: "short-story",
+    title: "Jumba Maro",
+    description: "Hadithi fupi — Ally Saleh.",
+    url: `${PLACEHOLDER_PDF}#jumba-maro`,
   },
   {
-    id: "w6",
-    category: "interview",
-    title: "Architecture & Memory",
-    description:
-      "Conversation about space, identity and creative process.",
-    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    id: "story-la-kuvunda",
+    category: "short-story",
+    title: "La kuvunda",
+    description: "Hadithi fupi — Ally Saleh.",
+    url: `${PLACEHOLDER_PDF}#la-kuvunda`,
+  },
+  {
+    id: "story-zubayda",
+    category: "short-story",
+    title: "Zubayda Kachoka",
+    description: "Hadithi fupi — Ally Saleh.",
+    url: `${PLACEHOLDER_PDF}#zubayda-kachoka`,
+  },
+  {
+    id: "story-maisha-ya-haji-gora",
+    category: "short-story",
+    title: "Maisha ya Haji Gora",
+    description: "Hadithi fupi — nimeandika.",
+    url: `${PLACEHOLDER_PDF}#maisha-ya-haji-gora`,
+  },
+  {
+    id: "story-moto-wa-tumvatu",
+    category: "short-story",
+    title: "Moto wa Tumvatu",
+    description: "Hadithi fupi — nimehariri.",
+    url: `${PLACEHOLDER_PDF}#moto-wa-tumvatu`,
+  },
+  {
+    id: "res-jumba-maro-video-1",
+    category: "resource",
+    title: "Jumba Maro — video",
+    description: "Shared video (link 1).",
+    url: "https://share.google/y4nJUsHI4ubBO3Iph",
+  },
+  {
+    id: "res-jumba-maro-video-2",
+    category: "resource",
+    title: "Jumba Maro — video",
+    description: "Shared video (link 2).",
+    url: "https://share.google/mfxnT5xlZa2OkAt4N",
+  },
+  {
+    id: "res-uhakiki-jumba-1",
+    category: "resource",
+    title: "Uhakiki wa Kitabu cha Jumba Maro I",
+    description: "Mohammed Ghassani — WordPress.",
+    url: "https://mohammedghassani.wordpress.com/2007/12/11/uhakiki-wa-kitabu-cha-jumba-maro/",
+  },
+  {
+    id: "res-uhakiki-jumba-2",
+    category: "resource",
+    title: "Uhakiki wa Kitabu cha Jumba Maro II",
+    description: "Mohammed Ghassani.",
+    url: "https://share.google/dhd0lGOY8GW7zjZdd",
+  },
+  {
+    id: "res-karamu-jumba-maro",
+    category: "resource",
+    title: "‘Karamu’ ya Jumba Maro na chaguzi barani Afrika",
+    description: "Mohammed Ghassani.",
+    url: "https://share.google/f6NE45Cgaa0EPDE1Y",
+  },
+  {
+    id: "res-la-kuvunda-ghassani",
+    category: "resource",
+    title: "La Kuvunda",
+    description: "Mohammed Ghassani — makala / tag.",
+    url: "https://mohammedghassani.wordpress.com/tag/la-kuvunda/",
   },
 ];
 
@@ -66,6 +129,15 @@ export function generateId(): string {
   );
 }
 
+function normalizeCategory(raw: unknown): WorkCategory | null {
+  if (raw === "poetry" || raw === "short-story" || raw === "resource") {
+    return raw;
+  }
+  if (raw === "pdf") return "short-story";
+  if (raw === "interview") return "poetry";
+  return null;
+}
+
 export function loadWorksFromStorage(): ArchiveWork[] {
   if (typeof window === "undefined") return [...DEMO_WORKS];
   try {
@@ -73,10 +145,18 @@ export function loadWorksFromStorage(): ArchiveWork[] {
     if (!stored) return [...DEMO_WORKS];
     const parsed = JSON.parse(stored) as ArchiveWork[];
     if (!Array.isArray(parsed) || parsed.length === 0) return [...DEMO_WORKS];
-    return parsed.map((w) => ({
-      ...w,
-      id: w.id || generateId(),
-    }));
+    const next = parsed
+      .map((w) => {
+        const cat = normalizeCategory(w.category);
+        if (!cat) return null;
+        return {
+          ...w,
+          category: cat,
+          id: w.id || generateId(),
+        };
+      })
+      .filter((w): w is ArchiveWork => w !== null);
+    return next.length > 0 ? next : [...DEMO_WORKS];
   } catch {
     return [...DEMO_WORKS];
   }

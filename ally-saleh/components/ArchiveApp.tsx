@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import {
   useCallback,
   useEffect,
@@ -14,7 +14,7 @@ import { useArchiveWorks } from "@/hooks/useArchiveWorks";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
 import type { ArchiveWork } from "@/lib/archive-data";
 
-type SectionFilter = "all" | "pdf" | "interview";
+type SectionFilter = "all" | "poetry" | "short-story" | "resource";
 
 function matchesSearch(w: ArchiveWork, q: string): boolean {
   if (!q.trim()) return true;
@@ -73,17 +73,25 @@ export function ArchiveApp() {
     });
   }, [works, search, sectionFilter]);
 
-  const pdfWorks = useMemo(
-    () => filteredWorks.filter((w) => w.category === "pdf"),
+  const poetryWorks = useMemo(
+    () => filteredWorks.filter((w) => w.category === "poetry"),
     [filteredWorks]
   );
-  const interviewWorks = useMemo(
-    () => filteredWorks.filter((w) => w.category === "interview"),
+  const shortStoryWorks = useMemo(
+    () => filteredWorks.filter((w) => w.category === "short-story"),
+    [filteredWorks]
+  );
+  const resourceWorks = useMemo(
+    () => filteredWorks.filter((w) => w.category === "resource"),
     [filteredWorks]
   );
 
-  const showPdfBlock = sectionFilter !== "interview";
-  const showInterviewBlock = sectionFilter !== "pdf";
+  const showPoetryBlock =
+    sectionFilter === "all" || sectionFilter === "poetry";
+  const showShortStoryBlock =
+    sectionFilter === "all" || sectionFilter === "short-story";
+  const showResourceBlock =
+    sectionFilter === "all" || sectionFilter === "resource";
 
   const closeMobileNav = useCallback(() => setMobileNavOpen(false), []);
 
@@ -107,16 +115,22 @@ export function ArchiveApp() {
     scrollToSection("archive-works");
   }, [closeMobileNav, scrollToSection]);
 
-  const goPublishedPdf = useCallback(() => {
+  const goPoetry = useCallback(() => {
     closeMobileNav();
-    setSectionFilter("pdf");
-    scrollToSection("section-pdf");
+    setSectionFilter("poetry");
+    scrollToSection("section-poetry");
   }, [closeMobileNav, scrollToSection]);
 
-  const goInterviews = useCallback(() => {
+  const goShortStories = useCallback(() => {
     closeMobileNav();
-    setSectionFilter("interview");
-    scrollToSection("section-interviews");
+    setSectionFilter("short-story");
+    scrollToSection("section-short-stories");
+  }, [closeMobileNav, scrollToSection]);
+
+  const goOnlineResources = useCallback(() => {
+    closeMobileNav();
+    setSectionFilter("resource");
+    scrollToSection("section-online-resources");
   }, [closeMobileNav, scrollToSection]);
 
   const goFooter = useCallback(() => {
@@ -170,7 +184,7 @@ export function ArchiveApp() {
                 <i className="bx bx-book-open" aria-hidden />
                 Ally Saleh
               </h1>
-              <p>Documents archive · Published PDFs & Interview Resources</p>
+              <p>Documents archive · Poetry, short stories & online resources</p>
             </div>
             <nav
               className="home-header-nav"
@@ -182,16 +196,23 @@ export function ArchiveApp() {
               <button
                 type="button"
                 className="home-nav-link"
-                onClick={goPublishedPdf}
+                onClick={goPoetry}
               >
-                Published PDF
+                Poetry
               </button>
               <button
                 type="button"
                 className="home-nav-link"
-                onClick={goInterviews}
+                onClick={goShortStories}
               >
-                Interviews
+                Short stories
+              </button>
+              <button
+                type="button"
+                className="home-nav-link"
+                onClick={goOnlineResources}
+              >
+                Online
               </button>
               <button
                 type="button"
@@ -220,10 +241,12 @@ export function ArchiveApp() {
                 />
                 <span>{isDarkTheme ? "Light Mode" : "Dark Mode"}</span>
               </button>
+              {/* Admin login hidden — restore by uncommenting Link import and this block
               <Link href="/admin/login" className="admin-toggle-btn">
                 <i className="bx bx-lock-alt" aria-hidden />
                 <span>Admin Console</span>
               </Link>
+              */}
             </div>
           </div>
         </header>
@@ -262,18 +285,26 @@ export function ArchiveApp() {
             <button
               type="button"
               className="home-drawer-link"
-              onClick={goPublishedPdf}
+              onClick={goPoetry}
             >
-              <i className="bx bxs-file-pdf" aria-hidden />
-              Published PDF
+              <i className="bx bx-book-heart" aria-hidden />
+              Poetry
             </button>
             <button
               type="button"
               className="home-drawer-link"
-              onClick={goInterviews}
+              onClick={goShortStories}
             >
-              <i className="bx bx-microphone" aria-hidden />
-              Interviews
+              <i className="bx bx-book-open" aria-hidden />
+              Short stories
+            </button>
+            <button
+              type="button"
+              className="home-drawer-link"
+              onClick={goOnlineResources}
+            >
+              <i className="bx bx-link-external" aria-hidden />
+              Online resources
             </button>
             <button
               type="button"
@@ -307,6 +338,7 @@ export function ArchiveApp() {
               />
               {isDarkTheme ? "Light mode" : "Dark mode"}
             </button>
+            {/* Admin login hidden — restore by uncommenting Link import and this block
             <Link
               href="/admin/login"
               className="home-drawer-action home-drawer-action--admin"
@@ -315,6 +347,7 @@ export function ArchiveApp() {
               <i className="bx bx-lock-alt" aria-hidden />
               Admin console
             </Link>
+            */}
           </div>
         </div>
       </aside>
@@ -348,8 +381,9 @@ export function ArchiveApp() {
             {(
               [
                 { id: "all" as const, label: "All" },
-                { id: "pdf" as const, label: "PDF" },
-                { id: "interview" as const, label: "Interviews" },
+                { id: "poetry" as const, label: "Poetry" },
+                { id: "short-story" as const, label: "Short stories" },
+                { id: "resource" as const, label: "Online" },
               ] as const
             ).map(({ id, label }) => (
               <button
@@ -364,27 +398,27 @@ export function ArchiveApp() {
           </div>
         </div>
 
-        {showPdfBlock ? (
+        {showPoetryBlock ? (
           <>
             <div
-              id="section-pdf"
+              id="section-poetry"
               className="section-header section-header--first"
             >
-              <i className="bx bx-file-pdf" aria-hidden />
-              <h2>Published PDF Works</h2>
-              <p>Readable manuscripts & essays</p>
+              <i className="bx bx-book-heart" aria-hidden />
+              <h2>Poetry</h2>
+              <p>Vitabu vya mashairi — bofya kufungua kila kitabu</p>
             </div>
-            <div id="pdfGallery" className="gallery-grid">
-              {pdfWorks.length === 0 ? (
+            <div id="poetryGallery" className="gallery-grid">
+              {poetryWorks.length === 0 ? (
                 <div className="empty-state">
                   <i className="bx bx-folder-open" aria-hidden />
-                  <p>No PDF works match your filters.</p>
+                  <p>No poetry works match your filters.</p>
                 </div>
               ) : (
-                pdfWorks.map((work) => (
+                poetryWorks.map((work) => (
                   <div key={work.id} className="work-card">
-                    <div className="card-icon pdf-icon">
-                      <i className="bx bxs-file-pdf" aria-hidden />
+                    <div className="card-icon interview-icon">
+                      <i className="bx bx-book-heart" aria-hidden />
                     </div>
                     <div className="card-title">{work.title}</div>
                     <div className="card-description">{work.description}</div>
@@ -393,10 +427,10 @@ export function ArchiveApp() {
                         href={work.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="card-link pdf-link"
+                        className="card-link interview-link"
                       >
-                        <i className="bx bx-file-pdf" aria-hidden />
-                        Read PDF
+                        <i className="bx bx-link-external" aria-hidden />
+                        Open book
                       </a>
                       <button
                         type="button"
@@ -414,24 +448,71 @@ export function ArchiveApp() {
           </>
         ) : null}
 
-        {showInterviewBlock ? (
+        {showShortStoryBlock ? (
           <>
-            <div id="section-interviews" className="section-header">
-              <i className="bx bx-microphone" aria-hidden />
-              <h2>Interviews & External Resources</h2>
-              <p>Conversations, podcasts & features</p>
+            <div id="section-short-stories" className="section-header">
+              <i className="bx bx-book-open" aria-hidden />
+              <h2>Short stories</h2>
+              <p>Hadithi fupi — bofya kufungua kila kitabu</p>
             </div>
-            <div id="interviewGallery" className="gallery-grid">
-              {interviewWorks.length === 0 ? (
+            <div id="shortStoriesGallery" className="gallery-grid">
+              {shortStoryWorks.length === 0 ? (
                 <div className="empty-state">
-                  <i className="bx bx-microphone-off" aria-hidden />
-                  <p>No interview resources match your filters.</p>
+                  <i className="bx bx-book-open" aria-hidden />
+                  <p>No short stories match your filters.</p>
                 </div>
               ) : (
-                interviewWorks.map((work) => (
+                shortStoryWorks.map((work) => (
+                  <div key={work.id} className="work-card">
+                    <div className="card-icon pdf-icon">
+                      <i className="bx bx-book-open" aria-hidden />
+                    </div>
+                    <div className="card-title">{work.title}</div>
+                    <div className="card-description">{work.description}</div>
+                    <div className="card-actions">
+                      <a
+                        href={work.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="card-link pdf-link"
+                      >
+                        <i className="bx bx-link-external" aria-hidden />
+                        Open book
+                      </a>
+                      <button
+                        type="button"
+                        className="card-link share-link"
+                        onClick={() => shareWork(work.title, work.url)}
+                      >
+                        <i className="bx bx-share-alt" aria-hidden />
+                        Share
+                      </button>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          </>
+        ) : null}
+
+        {showResourceBlock ? (
+          <>
+            <div id="section-online-resources" className="section-header">
+              <i className="bx bx-globe" aria-hidden />
+              <h2>Online resources & links</h2>
+              <p>Video, uhakiki, na makala — viungo vya nje</p>
+            </div>
+            <div id="onlineResourcesGallery" className="gallery-grid">
+              {resourceWorks.length === 0 ? (
+                <div className="empty-state">
+                  <i className="bx bx-link" aria-hidden />
+                  <p>No online resources match your filters.</p>
+                </div>
+              ) : (
+                resourceWorks.map((work) => (
                   <div key={work.id} className="work-card">
                     <div className="card-icon interview-icon">
-                      <i className="bx bx-microphone" aria-hidden />
+                      <i className="bx bx-link-external" aria-hidden />
                     </div>
                     <div className="card-title">{work.title}</div>
                     <div className="card-description">{work.description}</div>
@@ -443,7 +524,7 @@ export function ArchiveApp() {
                         className="card-link interview-link"
                       >
                         <i className="bx bx-link-external" aria-hidden />
-                        View Resource
+                        Open link
                       </a>
                       <button
                         type="button"

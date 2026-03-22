@@ -651,6 +651,17 @@ body.dark-theme .home-hero-board {
   );
 }
 
+/* Hero: two portraits same slot, crossfading on a timer */
+.home-hero-media-frame--crossfade {
+  aspect-ratio: 4 / 5;
+  max-height: min(70dvh, 560px);
+  width: 100%;
+}
+
+.home-hero-crossfade-layer {
+  transition: opacity 1.35s ease-in-out;
+}
+
 body.dark-theme .home-hero-media-frame {
   border-color: var(--border-hover);
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
@@ -759,6 +770,13 @@ body.dark-theme .home-hero-media-frame {
     height: min(58dvh, 520px);
     max-height: 520px;
     border-radius: 1.2rem;
+  }
+
+  .home-hero-media-frame--crossfade {
+    aspect-ratio: unset;
+    max-height: none;
+    height: min(58dvh, 520px);
+    max-height: 520px;
   }
 
   .home-hero-image {

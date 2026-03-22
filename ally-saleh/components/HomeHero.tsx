@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { HeroTypingTitle, HERO_TYPING_FULL } from "@/components/HeroTypingTitle";
 import { ScrollDownHint } from "@/components/ScrollDownHint";
 
@@ -8,8 +9,23 @@ type HomeHeroProps = {
   onScrollToArchive: () => void;
 };
 
+/** How long each portrait stays fully visible before crossfading to the other */
+const HERO_IMAGE_INTERVAL_MS = 6500;
+
+const HERO_PORTRAIT_NEW = "/images/Ally-Saleh.jpg";
+const HERO_PORTRAIT_CLASSIC = "/images/ally-saleh.jpg";
+
 /** Intro: text | portrait, with centered scroll cue inside the hero card */
 export function HomeHero({ onScrollToArchive }: HomeHeroProps) {
+  const [visibleLayer, setVisibleLayer] = useState(0);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setVisibleLayer((v) => (v === 0 ? 1 : 0));
+    }, HERO_IMAGE_INTERVAL_MS);
+    return () => window.clearInterval(id);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -30,8 +46,8 @@ export function HomeHero({ onScrollToArchive }: HomeHeroProps) {
               <HeroTypingTitle />
             </h2>
             <p className="home-hero-lead home-hero-animate home-hero-animate--2">
-              Explore published manuscripts, essays, and interview resources —
-              curated work spanning law, journalism, and civic life in Zanzibar.
+              Explore poetry, short stories, and online resources — videos,
+              reviews, and articles open in a new tab.
             </p>
             <div className="home-hero-bio home-hero-animate home-hero-animate--3">
               <p>
@@ -50,15 +66,33 @@ export function HomeHero({ onScrollToArchive }: HomeHeroProps) {
           </div>
 
           <div className="home-hero-media home-hero-animate home-hero-animate--2">
-            <div className="home-hero-media-frame">
+            <div className="home-hero-media-frame home-hero-media-frame--crossfade">
               <Image
-                src="/images/ally-saleh.jpg"
-                alt="Ally Saleh — author and public figure"
-                width={560}
-                height={700}
-                className="home-hero-image"
-                priority
+                src={HERO_PORTRAIT_NEW}
+                alt={
+                  visibleLayer === 0
+                    ? "Ally Saleh — author and public figure"
+                    : ""
+                }
+                fill
+                className="home-hero-crossfade-layer home-hero-image"
+                style={{ opacity: visibleLayer === 0 ? 1 : 0 }}
                 sizes="(max-width: 900px) min(100vw, 520px), (max-width: 1400px) 38vw, 480px"
+                priority
+                aria-hidden={visibleLayer !== 0}
+              />
+              <Image
+                src={HERO_PORTRAIT_CLASSIC}
+                alt={
+                  visibleLayer === 1
+                    ? "Ally Saleh — author and public figure"
+                    : ""
+                }
+                fill
+                className="home-hero-crossfade-layer home-hero-image"
+                style={{ opacity: visibleLayer === 1 ? 1 : 0 }}
+                sizes="(max-width: 900px) min(100vw, 520px), (max-width: 1400px) 38vw, 480px"
+                aria-hidden={visibleLayer !== 1}
               />
             </div>
           </div>

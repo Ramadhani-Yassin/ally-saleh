@@ -28,18 +28,22 @@ export function DashboardCharts({ works, isDark }: Props) {
   const gridColor = isDark ? "#2d313a" : "#e2e8f0";
   const tooltipBg = isDark ? "#1f2128" : "#ffffff";
   const tooltipBorder = isDark ? "#2d313a" : "#e2e8f0";
-  const pdfColor = isDark ? "#3b82f6" : "#1a4d8c";
-  const interviewColor = isDark ? "#a78bfa" : "#6b46c1";
+  const shortStoryColor = isDark ? "#3b82f6" : "#1a4d8c";
+  const poetryColor = isDark ? "#a78bfa" : "#6b46c1";
+  const resourceColor = isDark ? "#34d399" : "#047857";
   const lineColor = isDark ? "#48bb78" : "#2c7a4d";
 
   const categoryData = useMemo(() => {
-    const pdf = works.filter((w) => w.category === "pdf").length;
-    const interview = works.filter((w) => w.category === "interview").length;
-    const p = isDark ? "#3b82f6" : "#1a4d8c";
-    const i = isDark ? "#a78bfa" : "#6b46c1";
+    const poetry = works.filter((w) => w.category === "poetry").length;
+    const shortStory = works.filter((w) => w.category === "short-story").length;
+    const resource = works.filter((w) => w.category === "resource").length;
+    const p = isDark ? "#a78bfa" : "#6b46c1";
+    const s = isDark ? "#3b82f6" : "#1a4d8c";
+    const r = isDark ? "#34d399" : "#047857";
     return [
-      { name: "PDF", value: pdf, fill: p },
-      { name: "Interview", value: interview, fill: i },
+      { name: "Poetry", value: poetry, fill: p },
+      { name: "Short stories", value: shortStory, fill: s },
+      { name: "Online", value: resource, fill: r },
     ];
   }, [works, isDark]);
 
@@ -88,7 +92,16 @@ export function DashboardCharts({ works, isDark }: Props) {
                 />
                 <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                   {barData.map((_, i) => (
-                    <Cell key={i} fill={i === 0 ? pdfColor : interviewColor} />
+                    <Cell
+                      key={i}
+                      fill={
+                        i === 0
+                          ? poetryColor
+                          : i === 1
+                            ? shortStoryColor
+                            : resourceColor
+                      }
+                    />
                   ))}
                 </Bar>
               </BarChart>
@@ -126,7 +139,7 @@ export function DashboardCharts({ works, isDark }: Props) {
         </div>
 
         <div className="admin-chart-card admin-chart-card--wide">
-          <h3 className="admin-chart-title">PDF vs interviews (pie)</h3>
+          <h3 className="admin-chart-title">By category (pie)</h3>
           <div className="admin-chart-area admin-chart-area--pie">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>

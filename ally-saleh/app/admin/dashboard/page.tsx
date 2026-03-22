@@ -9,18 +9,18 @@ import { useSiteTheme } from "@/hooks/useSiteTheme";
 export default function AdminDashboardPage() {
   const { works } = useArchiveWorks();
   const { isDarkTheme } = useSiteTheme();
-  const pdfCount = useMemo(
-    () => works.filter((w) => w.category === "pdf").length,
+  const poetryCount = useMemo(
+    () => works.filter((w) => w.category === "poetry").length,
     [works]
   );
-  const interviewCount = useMemo(
-    () => works.filter((w) => w.category === "interview").length,
+  const shortStoryCount = useMemo(
+    () => works.filter((w) => w.category === "short-story").length,
     [works]
   );
-  const pdfSharePct = useMemo(() => {
-    if (works.length === 0) return 0;
-    return Math.round((pdfCount / works.length) * 100);
-  }, [works.length, pdfCount]);
+  const resourceCount = useMemo(
+    () => works.filter((w) => w.category === "resource").length,
+    [works]
+  );
 
   return (
     <div className="admin-page-inner admin-page-inner--wide">
@@ -30,24 +30,24 @@ export default function AdminDashboardPage() {
       </p>
       <div className="admin-dash-grid">
         <div className="admin-dash-card">
-          <i className="bx bx-file-pdf admin-dash-icon" aria-hidden />
-          <p className="admin-dash-value">{pdfCount}</p>
-          <p className="admin-dash-label">PDF works</p>
+          <i className="bx bx-book-heart admin-dash-icon" aria-hidden />
+          <p className="admin-dash-value">{poetryCount}</p>
+          <p className="admin-dash-label">Poetry</p>
         </div>
         <div className="admin-dash-card">
-          <i className="bx bx-microphone admin-dash-icon" aria-hidden />
-          <p className="admin-dash-value">{interviewCount}</p>
-          <p className="admin-dash-label">Interviews & links</p>
+          <i className="bx bx-book-open admin-dash-icon" aria-hidden />
+          <p className="admin-dash-value">{shortStoryCount}</p>
+          <p className="admin-dash-label">Short stories</p>
+        </div>
+        <div className="admin-dash-card">
+          <i className="bx bx-link-external admin-dash-icon" aria-hidden />
+          <p className="admin-dash-value">{resourceCount}</p>
+          <p className="admin-dash-label">Online resources</p>
         </div>
         <div className="admin-dash-card">
           <i className="bx bx-library admin-dash-icon" aria-hidden />
           <p className="admin-dash-value">{works.length}</p>
           <p className="admin-dash-label">Total entries</p>
-        </div>
-        <div className="admin-dash-card">
-          <i className="bx bx-pie-chart-alt admin-dash-icon" aria-hidden />
-          <p className="admin-dash-value">{pdfSharePct}%</p>
-          <p className="admin-dash-label">PDF share of archive</p>
         </div>
       </div>
       <div className="admin-dash-actions">

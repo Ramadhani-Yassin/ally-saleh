@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Ally Saleh | Professional Archive · PDF Gallery & Interviews",
+  title: "Ally Saleh | Archive · Poetry, Stories & Online Resources",
   description:
-    "Doccuments archive · Published PDFs & Interview Resources — Ally Saleh",
+    "Digital archive — poetry, short stories, and online resources (videos, reviews, articles) by and about Ally Saleh.",
 };
 
 export const viewport: Viewport = {
