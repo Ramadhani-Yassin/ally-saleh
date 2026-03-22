@@ -12,6 +12,7 @@ import {
 import { HomeHero } from "@/components/HomeHero";
 import { useArchiveWorks } from "@/hooks/useArchiveWorks";
 import { useSiteTheme } from "@/hooks/useSiteTheme";
+import { shareOrCopyLink } from "@/lib/share-link";
 import type { ArchiveWork } from "@/lib/archive-data";
 
 type SectionFilter = "all" | "poetry" | "short-story" | "resource";
@@ -143,27 +144,13 @@ export function ArchiveApp() {
     scrollToSection("archive-works");
   }, [scrollToSection]);
 
-  const copyToClipboard = useCallback((link: string, t: string) => {
-    navigator.clipboard
-      .writeText(link)
-      .then(() => {
-        window.alert(`🔗 "${t}" link copied to clipboard!`);
-      })
-      .catch(() => {
-        window.alert(`Share: ${link}`);
-      });
+  const shareWork = useCallback((title: string, url: string) => {
+    void shareOrCopyLink(title, url).catch(() => {
+      window.alert(
+        "Sharing failed. Open the work’s “Open book” / “Open link” button and copy the URL from the browser."
+      );
+    });
   }, []);
-
-  const shareWork = useCallback(
-    (t: string, u: string) => {
-      if (typeof navigator !== "undefined" && navigator.share) {
-        navigator.share({ title: t, url: u }).catch(() => copyToClipboard(u, t));
-      } else {
-        copyToClipboard(u, t);
-      }
-    },
-    [copyToClipboard]
-  );
 
   return (
     <div className="app-container app-container--home">

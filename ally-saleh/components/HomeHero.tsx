@@ -75,7 +75,7 @@ export function HomeHero({ onScrollToArchive }: HomeHeroProps) {
                     : ""
                 }
                 fill
-                className="home-hero-crossfade-layer home-hero-image"
+                className="home-hero-crossfade-layer home-hero-image home-hero-crossfade-layer--new"
                 style={{ opacity: visibleLayer === 0 ? 1 : 0 }}
                 sizes="(max-width: 900px) min(100vw, 520px), (max-width: 1400px) 38vw, 480px"
                 priority
@@ -89,7 +89,7 @@ export function HomeHero({ onScrollToArchive }: HomeHeroProps) {
                     : ""
                 }
                 fill
-                className="home-hero-crossfade-layer home-hero-image"
+                className="home-hero-crossfade-layer home-hero-image home-hero-crossfade-layer--classic"
                 style={{ opacity: visibleLayer === 1 ? 1 : 0 }}
                 sizes="(max-width: 900px) min(100vw, 520px), (max-width: 1400px) 38vw, 480px"
                 aria-hidden={visibleLayer !== 1}

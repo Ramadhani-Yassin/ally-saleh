@@ -662,6 +662,26 @@ body.dark-theme .home-hero-board {
   transition: opacity 1.35s ease-in-out;
 }
 
+/* Mobile: slightly taller frame; anchor from top so heads are not clipped */
+@media (max-width: 900px) {
+  .home-hero-media-frame--crossfade {
+    aspect-ratio: 3 / 4;
+    max-height: min(78dvh, 640px);
+  }
+
+  .home-hero-media-frame--crossfade .home-hero-crossfade-layer--new,
+  .home-hero-media-frame--crossfade .home-hero-crossfade-layer--classic {
+    object-fit: cover;
+    object-position: center top;
+  }
+}
+
+.home-hero-crossfade-layer--new,
+.home-hero-crossfade-layer--classic {
+  object-fit: cover;
+  object-position: center top;
+}
+
 body.dark-theme .home-hero-media-frame {
   border-color: var(--border-hover);
   box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
