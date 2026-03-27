@@ -11,7 +11,7 @@
       color: #1a1919;
       scroll-behavior: smooth;
       transition: background 0.3s ease, color 0.2s ease;
-      overflow-x: hidden;
+      overflow-x: clip;
       min-height: 100dvh;
       isolation: isolate;
     }
@@ -135,13 +135,13 @@
 
     /* ===== NAVIGATION ===== */
     .archive-header {
-      position: relative;
+      position: sticky;
+      top: 0;
       z-index: 100;
     }
 
     .glass-nav {
-      position: sticky;
-      top: 0;
+      position: relative;
       z-index: 1;
       background: rgba(251, 250, 248, 0.85);
       backdrop-filter: blur(14px);
@@ -884,6 +884,24 @@
       font-size: 0.85rem;
     }
 
+    .footer-chwaka-link {
+      font-weight: 700;
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .footer-chwaka-link:hover {
+      color: #c45c2c;
+      border-bottom-color: rgba(196, 92, 44, 0.45);
+    }
+
+    .style-html-root.style-dark .footer-chwaka-link:hover {
+      color: #e6a17a;
+      border-bottom-color: rgba(230, 161, 122, 0.5);
+    }
+
     .no-results {
       text-align: center;
       padding: 3rem;
@@ -1057,6 +1075,19 @@
       }
       .container {
         padding: 0 20px;
+      }
+      .footer-content {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        text-align: center;
+      }
+      .footer-content > div {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
       }
     }
 

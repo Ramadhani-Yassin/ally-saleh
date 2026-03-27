@@ -302,9 +302,9 @@ export function ArchiveApp() {
 
   const scrollToArchive = useCallback(() => {
     document.getElementById("archive-works")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+        behavior: "smooth",
+        block: "start",
+      });
   }, []);
 
   const goFilterAndArchive = useCallback(
@@ -516,7 +516,7 @@ export function ArchiveApp() {
                     opacity: 0.7,
                   }}
                 >
-                  Documents archive · Poetry, short stories & online
+                  Publications archive · Poetry, short stories & online
                 </span>
                 <span
                   className="header-description--mobile"
@@ -526,7 +526,7 @@ export function ArchiveApp() {
                     opacity: 0.7,
                   }}
                 >
-                  Documents archive ·
+                  Publications archive
                 </span>
               </div>
             </div>
@@ -611,15 +611,15 @@ export function ArchiveApp() {
                 Footer
               </a>
               <div className="nav-controls">
-                <button
-                  type="button"
+              <button
+                type="button"
                   className="dark-mode-toggle"
                   aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
                   onClick={() => applyTheme(!isDark)}
                 >
                   <i className={isDark ? "fas fa-sun" : "fas fa-moon"} />
                   <span className="theme-toggle-label">Theme</span>
-                </button>
+              </button>
                 <span style={{ fontWeight: 500, cursor: "default" }}>Menu</span>
               </div>
             </div>
@@ -651,7 +651,7 @@ export function ArchiveApp() {
               goFilterAndArchive("Poetry");
             }}
           >
-            Poetry
+              Poetry
           </a>
           <a
             href="#archive-works"
@@ -660,7 +660,7 @@ export function ArchiveApp() {
               goFilterAndArchive("Short stories");
             }}
           >
-            Short stories
+              Short stories
           </a>
           <a
             href="#archive-works"
@@ -780,22 +780,22 @@ export function ArchiveApp() {
                     />
                   ))}
                 </div>
-                <button
-                  type="button"
+            <button
+              type="button"
                   className="carousel-btn prev"
                   aria-label="Previous slide"
                   onClick={() => bumpSlide(-1)}
-                >
+            >
                   <i className="fas fa-chevron-left" />
-                </button>
-                <button
-                  type="button"
+            </button>
+            <button
+              type="button"
                   className="carousel-btn next"
                   aria-label="Next slide"
                   onClick={() => bumpSlide(1)}
-                >
+            >
                   <i className="fas fa-chevron-right" />
-                </button>
+            </button>
                 <div className="carousel-dots">
                   {HERO_SLIDES.map((_, idx) => (
                     <button
@@ -817,11 +817,11 @@ export function ArchiveApp() {
         </div>
 
         <div className="scroll-cue-below-hero">
-          <button
-            type="button"
+            <button
+              type="button"
             className="scroll-hint"
             aria-label="Scroll to archive"
-            onClick={() => {
+              onClick={() => {
               document.getElementById("archive-works")?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
@@ -834,15 +834,15 @@ export function ArchiveApp() {
             <span className="scroll-hint-label" aria-hidden>
               Scroll
             </span>
-          </button>
+            </button>
         </div>
 
         <div className="search-section slide-enter" ref={registerSlideRef(3)}>
-          <input
+            <input
             type="text"
             className="search-bar"
             placeholder="🔍 Search titles & descriptions…"
-            autoComplete="off"
+              autoComplete="off"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -877,8 +877,8 @@ export function ArchiveApp() {
             <div className="no-results">
               <i className="fas fa-search" style={{ marginRight: 10 }} />
               No matching publications — try other keywords
-            </div>
-          ) : (
+                </div>
+              ) : (
             filteredCards.map((item) => {
               const iconClass =
                 item.type === "Poetry"
@@ -895,10 +895,10 @@ export function ArchiveApp() {
                   <div className="card-desc">{item.desc}</div>
                   <div className="card-badge">
                     <i className="fas fa-tag" /> {item.badge}
-                  </div>
-                  <div className="card-actions">
-                    <button
-                      type="button"
+                    </div>
+                    <div className="card-actions">
+                      <button
+                        type="button"
                       className="action-open"
                       onClick={() => onOpenCard(item)}
                     >
@@ -906,20 +906,20 @@ export function ArchiveApp() {
                         className={`fas ${item.type === "Online" ? "fa-external-link-alt" : "fa-book-open"}`}
                       />{" "}
                       {item.actionLabel}
-                    </button>
-                    <button
-                      type="button"
+                      </button>
+                      <button
+                        type="button"
                       className="share-btn"
                       onClick={() => onShareCard(item)}
-                    >
+                      >
                       <i className="fas fa-share-alt" /> Share
-                    </button>
+                      </button>
+                    </div>
                   </div>
-                </div>
               );
             })
-          )}
-        </div>
+              )}
+            </div>
       </main>
 
       <footer className="footer" id="site-footer">
@@ -927,9 +927,17 @@ export function ArchiveApp() {
           <div>
             <i className="fas fa-feather-alt" /> Ally Saleh — Digital Archive ·
             Documents by the author
-          </div>
+        </div>
           <div>
-            <i className="fas fa-book-open" /> Proudly powered by The Chwaka House
+            <i className="fas fa-book-open" /> Proudly powered by{" "}
+            <a
+              href="https://www.chwakahouse.co.tz"
+              className="footer-chwaka-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              The Chwaka House
+            </a>
           </div>
         </div>
       </footer>
