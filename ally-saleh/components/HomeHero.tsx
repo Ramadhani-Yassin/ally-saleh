@@ -12,16 +12,18 @@ type HomeHeroProps = {
 /** How long each portrait stays fully visible before crossfading to the other */
 const HERO_IMAGE_INTERVAL_MS = 6500;
 
-const HERO_PORTRAIT_NEW = "/images/Ally-Saleh.jpg";
-const HERO_PORTRAIT_CLASSIC = "/images/ally-saleh.jpg";
+// Local hero images (must exist in `public/images`)
+const HERO_PORTRAIT_1 = "/images/Ally_saleh.jpeg";
+const HERO_PORTRAIT_2 = "/images/ally-saleh.jpg";
+const HERO_PORTRAIT_3 = "/images/Ally.Saleh.jpg";
 
 /** Intro: text | portrait, with centered scroll cue inside the hero card */
 export function HomeHero({ onScrollToArchive }: HomeHeroProps) {
-  const [visibleLayer, setVisibleLayer] = useState(0);
+  const [visibleLayer, setVisibleLayer] = useState(0); // 0..2
 
   useEffect(() => {
     const id = window.setInterval(() => {
-      setVisibleLayer((v) => (v === 0 ? 1 : 0));
+      setVisibleLayer((v) => (v + 1) % 3);
     }, HERO_IMAGE_INTERVAL_MS);
     return () => window.clearInterval(id);
   }, []);
@@ -68,32 +70,45 @@ export function HomeHero({ onScrollToArchive }: HomeHeroProps) {
           <div className="home-hero-media home-hero-animate home-hero-animate--2">
             <div className="home-hero-media-frame home-hero-media-frame--crossfade">
               <Image
-                src={HERO_PORTRAIT_NEW}
+                  src={HERO_PORTRAIT_1}
                 alt={
                   visibleLayer === 0
                     ? "Ally Saleh — author and public figure"
                     : ""
                 }
                 fill
-                className="home-hero-crossfade-layer home-hero-image home-hero-crossfade-layer--new"
-                style={{ opacity: visibleLayer === 0 ? 1 : 0 }}
+                  className="home-hero-crossfade-layer home-hero-image home-hero-crossfade-layer--new"
+                  style={{ opacity: visibleLayer === 0 ? 1 : 0 }}
                 sizes="(max-width: 900px) min(100vw, 520px), (max-width: 1400px) 38vw, 480px"
                 priority
                 aria-hidden={visibleLayer !== 0}
               />
               <Image
-                src={HERO_PORTRAIT_CLASSIC}
+                  src={HERO_PORTRAIT_2}
                 alt={
-                  visibleLayer === 1
+                    visibleLayer === 1
                     ? "Ally Saleh — author and public figure"
                     : ""
                 }
                 fill
-                className="home-hero-crossfade-layer home-hero-image home-hero-crossfade-layer--classic"
+                  className="home-hero-crossfade-layer home-hero-image home-hero-crossfade-layer--classic"
                 style={{ opacity: visibleLayer === 1 ? 1 : 0 }}
                 sizes="(max-width: 900px) min(100vw, 520px), (max-width: 1400px) 38vw, 480px"
                 aria-hidden={visibleLayer !== 1}
               />
+                <Image
+                  src={HERO_PORTRAIT_3}
+                  alt={
+                    visibleLayer === 2
+                      ? "Ally Saleh — author and public figure"
+                      : ""
+                  }
+                  fill
+                  className="home-hero-crossfade-layer home-hero-image home-hero-crossfade-layer--third"
+                  style={{ opacity: visibleLayer === 2 ? 1 : 0 }}
+                  sizes="(max-width: 900px) min(100vw, 520px), (max-width: 1400px) 38vw, 480px"
+                  aria-hidden={visibleLayer !== 2}
+                />
             </div>
           </div>
         </div>

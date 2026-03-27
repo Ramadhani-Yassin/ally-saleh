@@ -5,13 +5,17 @@ import { STORAGE_THEME_KEY } from "@/lib/archive-data";
 
 export function useSiteTheme() {
   const [hydrated, setHydrated] = useState(false);
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  // Match `style.html`: default to dark (black) until user chooses otherwise.
+  const [isDarkTheme, setIsDarkTheme] = useState(true);
 
   useEffect(() => {
     startTransition(() => {
-      const dark =
-        typeof window !== "undefined" &&
-        window.localStorage.getItem(STORAGE_THEME_KEY) === "dark";
+      // Default theme is dark (black), unless user explicitly stored a preference.
+      const stored =
+        typeof window !== "undefined"
+          ? window.localStorage.getItem(STORAGE_THEME_KEY)
+          : null;
+      const dark = stored ? stored === "dark" : true;
       setIsDarkTheme(dark);
       if (dark) document.body.classList.add("dark-theme");
       else document.body.classList.remove("dark-theme");
