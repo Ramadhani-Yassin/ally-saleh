@@ -28,7 +28,7 @@ export const DEMO_WORKS: ArchiveWork[] = [
     category: "poetry",
     title: "Neno",
     description: "Kitabu cha mashairi — Ally Saleh.",
-    url: `${PLACEHOLDER_PDF}#neno`,
+    url: `/Publications/Poetry/${encodeURIComponent("Neno.pdf")}`,
   },
   {
     id: "poetry-tupo",
@@ -63,7 +63,7 @@ export const DEMO_WORKS: ArchiveWork[] = [
     category: "short-story",
     title: "Zubayda Kachoka",
     description: "Hadithi fupi — Ally Saleh.",
-    url: `${PLACEHOLDER_PDF}#zubayda-kachoka`,
+    url: `/Publications/Short-Stories/${encodeURIComponent("ZUBAYDA KACHOKA 03.10.2023.pdf")}`,
   },
   {
     id: "story-maisha-ya-haji-gora",

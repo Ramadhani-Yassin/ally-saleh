@@ -13,7 +13,7 @@ type HomeHeroProps = {
 const HERO_IMAGE_INTERVAL_MS = 6500;
 
 // Local hero images (must exist in `public/images`)
-const HERO_PORTRAIT_1 = "/images/Ally_saleh.jpeg";
+const HERO_PORTRAIT_1 = "/images/Ally_saleh_.png";
 const HERO_PORTRAIT_2 = "/images/ally-saleh.jpg";
 const HERO_PORTRAIT_3 = "/images/Ally.Saleh.jpg";
 

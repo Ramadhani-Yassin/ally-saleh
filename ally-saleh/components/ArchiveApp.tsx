@@ -92,7 +92,6 @@ type DisplayCard = {
   badge: string;
   actionLabel: string;
   link: string;
-  external: boolean;
 };
 
 function categoryToDisplayType(cat: WorkCategory): DisplayCard["type"] {
@@ -122,15 +121,11 @@ function workToCard(w: ArchiveWork): DisplayCard {
     badge: categoryToBadge(cat),
     actionLabel: categoryToActionLabel(cat),
     link: w.url,
-    external:
-      cat === "resource" ||
-      w.url.startsWith("http://") ||
-      w.url.startsWith("https://"),
   };
 }
 
 const HERO_SLIDES = [
-  { src: "/images/Ally_saleh.jpeg", alt: "Ally Saleh portrait", variant: "" as const },
+  { src: "/images/Ally_saleh_.png", alt: "Ally Saleh portrait", variant: "" as const },
   { src: "/images/ally-saleh.jpg", alt: "Ally Saleh archive photo", variant: "variant-b" as const },
   { src: "/images/Ally.Saleh.jpg", alt: "Ally Saleh publication archive", variant: "variant-c" as const },
 ];
@@ -318,11 +313,7 @@ export function ArchiveApp() {
 
   const onOpenCard = useCallback((item: DisplayCard) => {
     if (item.link && item.link !== "#") {
-      if (item.external || item.link.startsWith("http")) {
-        window.open(item.link, "_blank", "noopener,noreferrer");
-      } else {
-        window.location.href = item.link;
-      }
+      window.open(item.link, "_blank", "noopener,noreferrer");
     } else {
       window.alert(
         `✨ "${item.title}" — preview mode. Full content available in archive.`
