@@ -1073,6 +1073,27 @@
       .cards-grid {
         grid-template-columns: 1fr;
       }
+
+      /* Skip scroll-reveal under hero on small screens — avoids a dark "empty"
+         gap (floating particles visible through transparent cards) when IO lags
+         or filters swap and .reveal is cleared. */
+      .style-html-root .search-section.slide-enter,
+      .style-html-root .cards-grid.slide-enter {
+        opacity: 1;
+        transform: none;
+      }
+
+      .style-html-root .card {
+        opacity: 1;
+        transform: none;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease,
+          transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      }
+
+      .style-html-root .card:hover {
+        transform: translateY(-6px) scale(1.01);
+      }
+
       .container {
         padding: 0 20px;
       }

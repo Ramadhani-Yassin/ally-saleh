@@ -42,7 +42,7 @@ export const DEMO_WORKS: ArchiveWork[] = [
     category: "poetry",
     title: "Kikohozi",
     description: "Kitabu cha mashairi — Ally Saleh.",
-    url: `${PLACEHOLDER_PDF}#kikohozi`,
+    url: `/Publications/Poetry/${encodeURIComponent("KIKOHOZI.pdf")}`,
   },
   {
     id: "story-jumba-maro",
