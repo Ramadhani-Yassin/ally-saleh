@@ -76,6 +76,98 @@
       -webkit-backdrop-filter: blur(18px);
     }
 
+    .header-quick-controls {
+      display: none;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .lang-toggle-btn {
+      font-family: inherit;
+      cursor: pointer;
+      min-width: 38px;
+      height: 38px;
+      padding: 0 0.55rem;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      border: 1px solid rgba(0, 0, 0, 0.14);
+      background: rgba(255, 255, 255, 0.72);
+      color: #2a211c;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    .lang-toggle-btn:hover {
+      background: rgba(196, 92,44, 0.12);
+      border-color: rgba(196, 92, 44, 0.45);
+      color: #a03e1a;
+    }
+
+    .style-html-root.style-dark .lang-toggle-btn {
+      background: rgba(255, 255, 255, 0.11);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      color: #fff4eb;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .style-html-root.style-dark .lang-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(230, 161, 122, 0.65);
+      color: #e6a17a;
+    }
+
+    .lang-toggle-btn__flag {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+
+    .lang-toggle-btn__code {
+      line-height: 1;
+    }
+
+    .hero-resumee-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1.15rem;
+      border-radius: 999px;
+      border: 1px solid rgba(196, 92, 44, 0.55);
+      background: linear-gradient(135deg, rgba(196, 92, 44, 0.95), rgba(160, 62, 26, 0.92));
+      color: #fffbf8;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 14px 32px rgba(196, 92, 44, 0.32);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+
+    .hero-resumee-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+      box-shadow: 0 18px 40px rgba(196, 92, 44, 0.38);
+    }
+
+    .hero-resumee-btn i {
+      font-size: 0.95rem;
+      opacity: 0.95;
+    }
+
+    .hero-text .hero-resumee-btn {
+      margin-top: 1.5rem;
+      align-self: center;
+      width: fit-content;
+      max-width: calc(100% - 1rem);
+    }
+
     .progress-line {
       position: fixed;
       top: 0;
@@ -365,6 +457,9 @@
       flex: 1;
       min-width: 280px;
       max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
     }
 
     .hero-image-frame {
@@ -710,12 +805,24 @@
       background: rgba(196, 92, 44, 0.08);
     }
 
+    .archive-works-area {
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .cards-grid-section {
+      margin-bottom: 3rem;
+    }
+
+    .cards-grid-section:last-child {
+      margin-bottom: 0;
+    }
+
     /* Card Grid */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 2rem;
-      margin: 1.5rem 0 2.5rem;
+      margin: 0;
     }
 
     /* ICON CARDS — category-specific icons */
@@ -1007,9 +1114,13 @@
         order: 2;
         flex: 1;
       }
-      .dark-mode-toggle-mobile {
+      .header-quick-controls {
         display: inline-flex;
         order: 3;
+      }
+
+      .dark-mode-toggle-mobile {
+        display: inline-flex;
       }
       .nav-links--drawer {
         position: fixed;
@@ -1078,7 +1189,7 @@
          gap (floating particles visible through transparent cards) when IO lags
          or filters swap and .reveal is cleared. */
       .style-html-root .search-section.slide-enter,
-      .style-html-root .cards-grid.slide-enter {
+      .style-html-root .archive-works-area.slide-enter {
         opacity: 1;
         transform: none;
       }

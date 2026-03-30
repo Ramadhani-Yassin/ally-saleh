@@ -8,8 +8,11 @@ import {
   useState,
 } from "react";
 import Image from "next/image";
+import { useArchiveSwahili } from "@/hooks/useArchiveSwahili";
 import { useArchiveWorks } from "@/hooks/useArchiveWorks";
 import { shareOrCopyLink } from "@/lib/share-link";
+import type { ArchiveI18nKey } from "@/lib/archive-ui-strings";
+import { NavLangToggle } from "@/components/NavLangToggle";
 import {
   STORAGE_THEME_KEY,
   type ArchiveWork,
@@ -84,13 +87,17 @@ function TypingAllySalehLine() {
 
 type NavFilter = "all" | "Poetry" | "Short stories" | "Online";
 
+const CARD_SECTION_ORDER: Array<Exclude<NavFilter, "all">> = [
+  "Poetry",
+  "Short stories",
+  "Online",
+];
+
 type DisplayCard = {
   id: string;
   type: Exclude<NavFilter, "all">;
   title: string;
   desc: string;
-  badge: string;
-  actionLabel: string;
   link: string;
 };
 
@@ -100,38 +107,97 @@ function categoryToDisplayType(cat: WorkCategory): DisplayCard["type"] {
   return "Online";
 }
 
-function categoryToBadge(cat: WorkCategory): string {
-  if (cat === "poetry") return "Diwani";
-  if (cat === "short-story") return "Hadithi";
-  return "External link";
-}
-
-function categoryToActionLabel(cat: WorkCategory): string {
-  if (cat === "resource") return "Open link";
-  return "Open book";
-}
-
-function workToCard(w: ArchiveWork): DisplayCard {
+function workToCard(w: ArchiveWork, lang: "en" | "sw"): DisplayCard {
   const cat = w.category;
+  const desc =
+    lang === "sw" && w.descriptionSw ? w.descriptionSw : w.description;
   return {
     id: w.id,
     type: categoryToDisplayType(cat),
     title: w.title,
-    desc: w.description,
-    badge: categoryToBadge(cat),
-    actionLabel: categoryToActionLabel(cat),
+    desc,
     link: w.url,
   };
 }
 
-const HERO_SLIDES = [
-  { src: "/images/Ally_saleh_.png", alt: "Ally Saleh portrait", variant: "" as const },
-  { src: "/images/ally-saleh.jpg", alt: "Ally Saleh archive photo", variant: "variant-b" as const },
-  { src: "/images/Ally.Saleh.jpg", alt: "Ally Saleh publication archive", variant: "variant-c" as const },
-];
+function badgeFor(
+  type: DisplayCard["type"],
+  t: (key: ArchiveI18nKey) => string
+): string {
+  if (type === "Poetry") return t("badgePoetry");
+  if (type === "Short stories") return t("badgeShortStory");
+  return t("badgeOnline");
+}
+
+function actionLabelFor(
+  type: DisplayCard["type"],
+  t: (key: ArchiveI18nKey) => string
+): string {
+  if (type === "Online") return t("actionOpenLink");
+  return t("actionOpenBook");
+}
+
+function ArchiveListingCard({
+  item,
+  t,
+  onOpenCard,
+  onShareCard,
+}: {
+  item: DisplayCard;
+  t: (key: ArchiveI18nKey) => string;
+  onOpenCard: (item: DisplayCard) => void;
+  onShareCard: (item: DisplayCard) => void;
+}) {
+  const iconClass =
+    item.type === "Poetry"
+      ? "fa-feather-alt"
+      : item.type === "Short stories"
+        ? "fa-book-open"
+        : "fa-globe";
+  return (
+    <div className="card" data-type={item.type}>
+      <div className="card-icon">
+        <i className={`fas ${iconClass}`} />
+      </div>
+      <div className="card-title">{item.title}</div>
+      <div className="card-desc">{item.desc}</div>
+      <div className="card-badge">
+        <i className="fas fa-tag" /> {badgeFor(item.type, t)}
+      </div>
+      <div className="card-actions">
+        <button
+          type="button"
+          className="action-open"
+          onClick={() => onOpenCard(item)}
+        >
+          <i
+            className={`fas ${item.type === "Online" ? "fa-external-link-alt" : "fa-book-open"}`}
+          />{" "}
+          {actionLabelFor(item.type, t)}
+        </button>
+        <button
+          type="button"
+          className="share-btn"
+          onClick={() => onShareCard(item)}
+        >
+          <i className="fas fa-share-alt" /> {t("shareBtn")}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const HERO_SLIDE_SRC = [
+  { src: "/images/Ally_saleh_.png", variant: "" as const },
+  { src: "/images/ally-saleh.jpg", variant: "variant-b" as const },
+  { src: "/images/Ally.Saleh.jpg", variant: "variant-c" as const },
+] as const;
+
+const ALLY_CV_PATH = "/cv/ally-saleh-cv.pdf";
 
 export function ArchiveApp() {
   const { works } = useArchiveWorks();
+  const { lang, toggleLang, t, format } = useArchiveSwahili();
   const [activeFilter, setActiveFilter] = useState<NavFilter>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -144,7 +210,10 @@ export function ArchiveApp() {
   const progressRef = useRef<HTMLDivElement | null>(null);
   const slideElsRef = useRef<Array<HTMLElement | null>>([]);
 
-  const cards = useMemo(() => works.map(workToCard), [works]);
+  const cards = useMemo(
+    () => works.map((w) => workToCard(w, lang)),
+    [works, lang]
+  );
 
   const filteredCards = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -157,6 +226,19 @@ export function ArchiveApp() {
       return matchesFilter && matchesSearch;
     });
   }, [cards, activeFilter, searchQuery]);
+
+  const cardSections = useMemo(() => {
+    if (activeFilter !== "all") return null;
+    const sections: Array<{
+      type: Exclude<NavFilter, "all">;
+      items: DisplayCard[];
+    }> = [];
+    for (const type of CARD_SECTION_ORDER) {
+      const items = filteredCards.filter((c) => c.type === type);
+      if (items.length > 0) sections.push({ type, items });
+    }
+    return sections;
+  }, [activeFilter, filteredCards]);
 
   useEffect(() => {
     document.documentElement.classList.add("archive-shell");
@@ -198,7 +280,7 @@ export function ArchiveApp() {
   useEffect(() => {
     if (!autoPlay) return;
     const id = window.setInterval(() => {
-      setCurrentSlide((s) => (s + 1) % HERO_SLIDES.length);
+      setCurrentSlide((s) => (s + 1) % HERO_SLIDE_SRC.length);
     }, 4500);
     return () => window.clearInterval(id);
   }, [autoPlay]);
@@ -311,26 +393,38 @@ export function ArchiveApp() {
     [scrollToArchive, setMenuOpen]
   );
 
-  const onOpenCard = useCallback((item: DisplayCard) => {
-    if (item.link && item.link !== "#") {
-      window.open(item.link, "_blank", "noopener,noreferrer");
-    } else {
-      window.alert(
-        `✨ "${item.title}" — preview mode. Full content available in archive.`
-      );
-    }
+  const openResume = useCallback(() => {
+    const url =
+      (typeof process !== "undefined" &&
+        process.env.NEXT_PUBLIC_ALLY_CV_URL?.trim()) ||
+      ALLY_CV_PATH;
+    window.open(url, "_blank", "noopener,noreferrer");
   }, []);
 
-  const onShareCard = useCallback((item: DisplayCard) => {
-    void shareOrCopyLink(item.title, item.link).catch(() => {
-      window.alert(
-        "Sharing failed. Open the work’s button and copy the URL from the browser."
-      );
-    });
-  }, []);
+  const onOpenCard = useCallback(
+    (item: DisplayCard) => {
+      if (item.link && item.link !== "#") {
+        window.open(item.link, "_blank", "noopener,noreferrer");
+      } else {
+        window.alert(format("alertPreview", item.title));
+      }
+    },
+    [format]
+  );
+
+  const onShareCard = useCallback(
+    (item: DisplayCard) => {
+      void shareOrCopyLink(item.title, item.link).catch(() => {
+        window.alert(t("alertShareFailed"));
+      });
+    },
+    [t]
+  );
 
   const goSlide = useCallback((index: number) => {
-    setCurrentSlide((index + HERO_SLIDES.length) % HERO_SLIDES.length);
+    setCurrentSlide(
+      (index + HERO_SLIDE_SRC.length) % HERO_SLIDE_SRC.length
+    );
   }, []);
 
   const bumpSlide = useCallback(
@@ -355,7 +449,7 @@ export function ArchiveApp() {
       <button
         type="button"
         className="menu-backdrop"
-        aria-label="Close navigation menu"
+        aria-label={t("closeMenu")}
         onClick={() => setMenuOpen(false)}
       />
       <div className="floating-bg" aria-hidden>
@@ -507,7 +601,7 @@ export function ArchiveApp() {
                     opacity: 0.7,
                   }}
                 >
-                  Publications archive · Poetry, short stories & online
+                  {t("headerDescDesktop")}
                 </span>
                 <span
                   className="header-description--mobile"
@@ -517,7 +611,7 @@ export function ArchiveApp() {
                     opacity: 0.7,
                   }}
                 >
-                  Publications archive
+                  {t("headerDescMobile")}
                 </span>
               </div>
             </div>
@@ -531,15 +625,24 @@ export function ArchiveApp() {
             >
               <i className={mobileNavOpen ? "fas fa-times" : "fas fa-bars"} />
             </button>
-            <button
-              type="button"
-              className="dark-mode-toggle dark-mode-toggle-mobile"
-              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-              onClick={() => applyTheme(!isDark)}
-            >
-              <i className={isDark ? "fas fa-sun" : "fas fa-moon"} />
-              <span className="theme-toggle-label">Theme</span>
-            </button>
+            <div className="header-quick-controls">
+              <button
+                type="button"
+                className="dark-mode-toggle dark-mode-toggle-mobile"
+                aria-label={t(isDark ? "themeToLight" : "themeToDark")}
+                onClick={() => applyTheme(!isDark)}
+              >
+                <i className={isDark ? "fas fa-sun" : "fas fa-moon"} />
+                <span className="theme-toggle-label">Theme</span>
+              </button>
+              <NavLangToggle
+                lang={lang}
+                onToggle={toggleLang}
+                ariaLabel={
+                  lang === "en" ? t("fabToSwahili") : t("fabToEnglish")
+                }
+              />
+            </div>
             <div className="nav-links nav-links--desktop" aria-label="Primary navigation">
               <a
                 href="#hero"
@@ -551,7 +654,7 @@ export function ArchiveApp() {
                   });
                 }}
               >
-                Home
+                {t("navHome")}
               </a>
               <a
                 href="#archive-works"
@@ -560,7 +663,7 @@ export function ArchiveApp() {
                   goFilterAndArchive("Poetry");
                 }}
               >
-                Poetry
+                {t("navPoetry")}
               </a>
               <a
                 href="#archive-works"
@@ -569,7 +672,7 @@ export function ArchiveApp() {
                   goFilterAndArchive("Short stories");
                 }}
               >
-                Short stories
+                {t("navShortStories")}
               </a>
               <a
                 href="#archive-works"
@@ -578,7 +681,7 @@ export function ArchiveApp() {
                   goFilterAndArchive("Online");
                 }}
               >
-                Online
+                {t("navOnline")}
               </a>
               <a
                 href="#archive-works"
@@ -587,7 +690,7 @@ export function ArchiveApp() {
                   goFilterAndArchive("all");
                 }}
               >
-                Archive
+                {t("navArchive")}
               </a>
               <a
                 href="#site-footer"
@@ -599,19 +702,25 @@ export function ArchiveApp() {
                   });
                 }}
               >
-                Footer
+                {t("navFooter")}
               </a>
               <div className="nav-controls">
-              <button
-                type="button"
+                <button
+                  type="button"
                   className="dark-mode-toggle"
-                  aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                  aria-label={t(isDark ? "themeToLight" : "themeToDark")}
                   onClick={() => applyTheme(!isDark)}
                 >
                   <i className={isDark ? "fas fa-sun" : "fas fa-moon"} />
                   <span className="theme-toggle-label">Theme</span>
-              </button>
-                <span style={{ fontWeight: 500, cursor: "default" }}>Menu</span>
+                </button>
+                <NavLangToggle
+                  lang={lang}
+                  onToggle={toggleLang}
+                  ariaLabel={
+                    lang === "en" ? t("fabToSwahili") : t("fabToEnglish")
+                  }
+                />
               </div>
             </div>
           </div>
@@ -633,7 +742,7 @@ export function ArchiveApp() {
               });
             }}
           >
-            Home
+            {t("navHome")}
           </a>
           <a
             href="#archive-works"
@@ -642,7 +751,7 @@ export function ArchiveApp() {
               goFilterAndArchive("Poetry");
             }}
           >
-              Poetry
+              {t("navPoetry")}
           </a>
           <a
             href="#archive-works"
@@ -651,7 +760,7 @@ export function ArchiveApp() {
               goFilterAndArchive("Short stories");
             }}
           >
-              Short stories
+              {t("navShortStories")}
           </a>
           <a
             href="#archive-works"
@@ -660,7 +769,7 @@ export function ArchiveApp() {
               goFilterAndArchive("Online");
             }}
           >
-            Online
+            {t("navOnline")}
           </a>
           <a
             href="#archive-works"
@@ -669,7 +778,7 @@ export function ArchiveApp() {
               goFilterAndArchive("all");
             }}
           >
-            Archive
+            {t("navArchive")}
           </a>
           <a
             href="#site-footer"
@@ -681,19 +790,25 @@ export function ArchiveApp() {
               });
             }}
           >
-            Footer
+            {t("navFooter")}
           </a>
           <div className="nav-controls">
             <button
               type="button"
               className="dark-mode-toggle"
-              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={t(isDark ? "themeToLight" : "themeToDark")}
               onClick={() => applyTheme(!isDark)}
             >
               <i className={isDark ? "fas fa-sun" : "fas fa-moon"} />
               <span className="theme-toggle-label">Theme</span>
             </button>
-            <span style={{ fontWeight: 500, cursor: "default" }}>Menu</span>
+            <NavLangToggle
+              lang={lang}
+              onToggle={toggleLang}
+              ariaLabel={
+                lang === "en" ? t("fabToSwahili") : t("fabToEnglish")
+              }
+            />
           </div>
         </div>
       </header>
@@ -729,25 +844,26 @@ export function ArchiveApp() {
           </div>
           <div className="hero-grid">
             <div className="hero-text slide-enter" ref={registerSlideRef(1)}>
-              <div className="hero-eyebrow">Digital archive · Author & public voice</div>
+              <div className="hero-eyebrow">{t("heroEyebrow")}</div>
               <h1>
                 <TypingAllySalehLine />
                 <br />
-                Publications Archive
+                {t("heroTitleSuffix")}
               </h1>
               <div className="bio">
-                Explore poetry, short stories, and online resources — videos, reviews,
-                and articles open in a new tab.
+                {t("heroLead")}
                 <br />
                 <br />
-                Ally Saleh is a prominent Zanzibari politician, lawyer, journalist,
-                and poet, known for a long career in both the media and political
-                landscapes of Zanzibar. He served as Member of Parliament for the
-                Malindi constituency. Originally a high-profile member of the Civic
-                United Front (CUF), he later joined ACT Wazalendo. He is a vocal
-                advocate for Zanzibari autonomy and has spoken widely on Zanzibar
-                identity and the nature of the Tanzanian Union.
+                {t("heroBio")}
               </div>
+              <button
+                type="button"
+                className="hero-resumee-btn"
+                onClick={openResume}
+              >
+                <i className="fas fa-file-pdf" aria-hidden />
+                Resumee
+              </button>
             </div>
             <div className="hero-image-frame slide-enter" ref={registerSlideRef(2)}>
               <div className="carousel-container">
@@ -755,15 +871,21 @@ export function ArchiveApp() {
                   className="carousel-bg-blur"
                   aria-hidden
                   style={{
-                    backgroundImage: `url(${HERO_SLIDES[currentSlide].src})`,
+                    backgroundImage: `url(${HERO_SLIDE_SRC[currentSlide].src})`,
                   }}
                 />
                 <div className="carousel-slides">
-                  {HERO_SLIDES.map((slide, idx) => (
+                  {HERO_SLIDE_SRC.map((slide, idx) => (
                     <Image
                       key={slide.src}
                       src={slide.src}
-                      alt={slide.alt}
+                      alt={
+                        idx === 0
+                          ? t("heroSlideAlt0")
+                          : idx === 1
+                            ? t("heroSlideAlt1")
+                            : t("heroSlideAlt2")
+                      }
                       fill
                       className={`carousel-slide ${slide.variant} ${idx === currentSlide ? "active" : ""}`.trim()}
                       sizes="(max-width: 860px) 90vw, 420px"
@@ -774,7 +896,7 @@ export function ArchiveApp() {
             <button
               type="button"
                   className="carousel-btn prev"
-                  aria-label="Previous slide"
+                  aria-label={t("carouselPrev")}
                   onClick={() => bumpSlide(-1)}
             >
                   <i className="fas fa-chevron-left" />
@@ -782,18 +904,18 @@ export function ArchiveApp() {
             <button
               type="button"
                   className="carousel-btn next"
-                  aria-label="Next slide"
+                  aria-label={t("carouselNext")}
                   onClick={() => bumpSlide(1)}
             >
                   <i className="fas fa-chevron-right" />
             </button>
                 <div className="carousel-dots">
-                  {HERO_SLIDES.map((_, idx) => (
+                  {HERO_SLIDE_SRC.map((_, idx) => (
                     <button
                       key={idx}
                       type="button"
                       className={`dot${idx === currentSlide ? " active" : ""}`}
-                      aria-label={`Go to slide ${idx + 1}`}
+                      aria-label={`${t("carouselGoSlide")} ${idx + 1}`}
                       onClick={() => {
                         setAutoPlay(false);
                         goSlide(idx);
@@ -811,7 +933,7 @@ export function ArchiveApp() {
             <button
               type="button"
             className="scroll-hint"
-            aria-label="Scroll to archive"
+            aria-label={t("scrollToArchive")}
               onClick={() => {
               document.getElementById("archive-works")?.scrollIntoView({
                 behavior: "smooth",
@@ -823,7 +945,7 @@ export function ArchiveApp() {
               <span className="scroll-hint-wheel" />
             </span>
             <span className="scroll-hint-label" aria-hidden>
-              Scroll
+              {t("scrollLabel")}
             </span>
             </button>
         </div>
@@ -832,7 +954,7 @@ export function ArchiveApp() {
             <input
             type="text"
             className="search-bar"
-            placeholder="🔍 Search titles & descriptions…"
+            placeholder={t("searchPlaceholder")}
               autoComplete="off"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -845,7 +967,7 @@ export function ArchiveApp() {
                 ["Short stories", "Short stories"],
                 ["Online", "Online"],
               ] as const
-            ).map(([cat, label]) => (
+            ).map(([cat, labelKey]) => (
               <button
                 key={cat}
                 type="button"
@@ -853,7 +975,15 @@ export function ArchiveApp() {
                 className={`filter-btn${activeFilter === cat ? " active" : ""}`}
                 onClick={() => setActiveFilter(cat)}
               >
-                {label}
+                {t(
+                  labelKey === "All"
+                    ? "filterAll"
+                    : labelKey === "Poetry"
+                      ? "filterPoetry"
+                      : labelKey === "Short stories"
+                        ? "filterShortStories"
+                        : "filterOnline"
+                )}
               </button>
             ))}
           </div>
@@ -861,66 +991,57 @@ export function ArchiveApp() {
 
         <div
           id="archive-works"
-          className="cards-grid slide-enter"
+          className="archive-works-area slide-enter"
           ref={registerSlideRef(4)}
         >
           {filteredCards.length === 0 ? (
             <div className="no-results">
               <i className="fas fa-search" style={{ marginRight: 10 }} />
-              No matching publications — try other keywords
-                </div>
-              ) : (
-            filteredCards.map((item) => {
-              const iconClass =
-                item.type === "Poetry"
-                  ? "fa-feather-alt"
-                  : item.type === "Short stories"
-                    ? "fa-book-open"
-                    : "fa-globe";
-              return (
-                <div key={item.id} className="card" data-type={item.type}>
-                  <div className="card-icon">
-                    <i className={`fas ${iconClass}`} />
-                  </div>
-                  <div className="card-title">{item.title}</div>
-                  <div className="card-desc">{item.desc}</div>
-                  <div className="card-badge">
-                    <i className="fas fa-tag" /> {item.badge}
-                    </div>
-                    <div className="card-actions">
-                      <button
-                        type="button"
-                      className="action-open"
-                      onClick={() => onOpenCard(item)}
-                    >
-                      <i
-                        className={`fas ${item.type === "Online" ? "fa-external-link-alt" : "fa-book-open"}`}
-                      />{" "}
-                      {item.actionLabel}
-                      </button>
-                      <button
-                        type="button"
-                      className="share-btn"
-                      onClick={() => onShareCard(item)}
-                      >
-                      <i className="fas fa-share-alt" /> Share
-                      </button>
-                    </div>
-                  </div>
-              );
-            })
-              )}
+              {t("noResults")}
             </div>
+          ) : activeFilter === "all" && cardSections ? (
+            cardSections.map(({ type, items }) => (
+              <section
+                key={type}
+                className="cards-grid-section"
+                aria-label={type}
+              >
+                <div className="cards-grid">
+                  {items.map((item) => (
+                    <ArchiveListingCard
+                      key={item.id}
+                      item={item}
+                      t={t}
+                      onOpenCard={onOpenCard}
+                      onShareCard={onShareCard}
+                    />
+                  ))}
+                </div>
+              </section>
+            ))
+          ) : (
+            <div className="cards-grid">
+              {filteredCards.map((item) => (
+                <ArchiveListingCard
+                  key={item.id}
+                  item={item}
+                  t={t}
+                  onOpenCard={onOpenCard}
+                  onShareCard={onShareCard}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </main>
 
       <footer className="footer" id="site-footer">
         <div className="container footer-content">
           <div>
-            <i className="fas fa-feather-alt" /> Ally Saleh — Digital Archive ·
-            Documents by the author
+            <i className="fas fa-feather-alt" /> {t("footerArchive")}
         </div>
           <div>
-            <i className="fas fa-book-open" /> Proudly powered by{" "}
+            <i className="fas fa-book-open" /> {t("footerPowered")}{" "}
             <a
               href="https://www.chwakahouse.co.tz"
               className="footer-chwaka-link"

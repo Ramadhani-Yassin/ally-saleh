@@ -5,6 +5,8 @@ export type ArchiveWork = {
   category: WorkCategory;
   title: string;
   description: string;
+  /** Optional Swahili description when `description` is English-only (e.g. “Shared video”). */
+  descriptionSw?: string;
   url: string;
 };
 
@@ -84,6 +86,7 @@ export const DEMO_WORKS: ArchiveWork[] = [
     category: "resource",
     title: "Jumba Maro — video",
     description: "Shared video (link 1).",
+    descriptionSw: "Video iliyoshirikiwa (kiungo 1).",
     url: "https://share.google/y4nJUsHI4ubBO3Iph",
   },
   {
@@ -91,6 +94,7 @@ export const DEMO_WORKS: ArchiveWork[] = [
     category: "resource",
     title: "Jumba Maro — video",
     description: "Shared video (link 2).",
+    descriptionSw: "Video iliyoshirikiwa (kiungo 2).",
     url: "https://share.google/mfxnT5xlZa2OkAt4N",
   },
   {
