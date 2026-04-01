@@ -42,6 +42,14 @@ export const ARCHIVE_I18N_KEYS = [
   "heroSlideAlt1",
   "heroSlideAlt2",
   "uhakikiReview",
+  "modalOk",
+  "modalCopyLink",
+  "noticePreviewTitle",
+  "shareModalCopiedTitle",
+  "shareModalCopiedBody",
+  "shareModalManualTitle",
+  "shareModalManualBody",
+  "shareModalErrorTitle",
 ] as const;
 
 export type ArchiveI18nKey = (typeof ARCHIVE_I18N_KEYS)[number];
@@ -93,6 +101,16 @@ export const ARCHIVE_EN: Record<ArchiveI18nKey, string> = {
   heroSlideAlt1: "Ally Saleh archive photo",
   heroSlideAlt2: "Ally Saleh publication archive",
   uhakikiReview: "Review",
+  modalOk: "OK",
+  modalCopyLink: "Copy link",
+  noticePreviewTitle: "Preview",
+  shareModalCopiedTitle: "Link copied",
+  shareModalCopiedBody:
+    "The address is on your clipboard. You can paste it into a message, email, or document.",
+  shareModalManualTitle: "Copy this link",
+  shareModalManualBody:
+    "Your browser could not copy automatically. Select the link below or tap Copy link, then paste where you need it.",
+  shareModalErrorTitle: "Sharing",
 };
 
 /** Swahili UI matching the provided full-page copy (static, instant toggle). */
@@ -144,4 +162,14 @@ export const ARCHIVE_SW: Record<ArchiveI18nKey, string> = {
   heroSlideAlt1: "Picha ya Ally Saleh katika kumbukumbu",
   heroSlideAlt2: "Machapisho ya Ally Saleh",
   uhakikiReview: "review",
+  modalOk: "Sawa",
+  modalCopyLink: "Nakili kiunganishi",
+  noticePreviewTitle: "Hakiki",
+  shareModalCopiedTitle: "Kiunganishi kimenakiliwa",
+  shareModalCopiedBody:
+    "Anwani iko kwenye ubao wa kunakili. Unaweza kuibandika kwenye ujumbe, barua pepe, au hati.",
+  shareModalManualTitle: "Nakili kiunganishi hiki",
+  shareModalManualBody:
+    "Kivinjari hakikuweza kunakili kiotomatiki. Chagua kiunganishi hapa chini au ubonyeze Nakili kiunganishi, kisha ubandike unapohitaji.",
+  shareModalErrorTitle: "Kushiriki",
 };

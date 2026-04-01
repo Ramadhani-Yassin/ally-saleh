@@ -10,7 +10,12 @@ import {
 import Image from "next/image";
 import { useArchiveSwahili } from "@/hooks/useArchiveSwahili";
 import { useArchiveWorks } from "@/hooks/useArchiveWorks";
-import { shareOrCopyLink } from "@/lib/share-link";
+import {
+  registerArchiveModalHandler,
+  showArchiveModal,
+  type ArchiveModalPayload,
+} from "@/lib/archive-modal";
+import { copyTextRobust, shareOrCopyLink } from "@/lib/share-link";
 import type { ArchiveI18nKey } from "@/lib/archive-ui-strings";
 import { NavLangToggle } from "@/components/NavLangToggle";
 import {
@@ -227,6 +232,9 @@ export function ArchiveApp() {
   const [hydrated, setHydrated] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
+  const [notice, setNotice] = useState<ArchiveModalPayload | null>(null);
+  const [noticeSuccessExiting, setNoticeSuccessExiting] = useState(false);
+  const noticeDoneRef = useRef<(() => void) | null>(null);
 
   const headerRef = useRef<HTMLElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
@@ -273,6 +281,84 @@ export function ArchiveApp() {
       document.body.classList.remove("archive-shell", "archive-shell--dark");
     };
   }, []);
+
+  useEffect(() => {
+    registerArchiveModalHandler((payload) => {
+      return new Promise<void>((resolve) => {
+        noticeDoneRef.current = resolve;
+        setNoticeSuccessExiting(false);
+        setNotice(payload);
+      });
+    });
+    return () => registerArchiveModalHandler(null);
+  }, []);
+
+  const finishNotice = useCallback(() => {
+    setNotice(null);
+    setNoticeSuccessExiting(false);
+    const done = noticeDoneRef.current;
+    noticeDoneRef.current = null;
+    done?.();
+  }, []);
+
+  const dismissNotice = useCallback(() => {
+    if (notice?.copySuccess) {
+      if (noticeSuccessExiting) {
+        finishNotice();
+      } else {
+        setNoticeSuccessExiting(true);
+      }
+      return;
+    }
+    finishNotice();
+  }, [notice, noticeSuccessExiting, finishNotice]);
+
+  useEffect(() => {
+    if (!notice) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") dismissNotice();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [notice, dismissNotice]);
+
+  useEffect(() => {
+    if (!notice?.copySuccess || noticeSuccessExiting) return;
+    const ms = notice.autoDismissMs ?? 400;
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const id = window.setTimeout(() => {
+      if (reduced) {
+        finishNotice();
+      } else {
+        setNoticeSuccessExiting(true);
+      }
+    }, ms);
+    return () => window.clearTimeout(id);
+  }, [notice, noticeSuccessExiting, finishNotice]);
+
+  const onSuccessToastAnimEnd = useCallback(
+    (e: React.AnimationEvent<HTMLDivElement>) => {
+      if (!notice?.copySuccess || !noticeSuccessExiting) return;
+      if (e.target !== e.currentTarget) return;
+      const name = e.animationName || "";
+      if (!name.includes("archive-modal-success-out")) return;
+      finishNotice();
+    },
+    [notice, noticeSuccessExiting, finishNotice]
+  );
+
+  useEffect(() => {
+    if (!noticeSuccessExiting || !notice?.copySuccess) return;
+    const id = window.setTimeout(() => finishNotice(), 520);
+    return () => window.clearTimeout(id);
+  }, [noticeSuccessExiting, notice, finishNotice]);
+
+  const copyNoticeUrl = useCallback(() => {
+    if (!notice?.url) return;
+    void copyTextRobust(notice.url);
+  }, [notice]);
 
   useEffect(() => {
     const raw =
@@ -428,16 +514,33 @@ export function ArchiveApp() {
       if (item.link && item.link !== "#") {
         window.open(item.link, "_blank", "noopener,noreferrer");
       } else {
-        window.alert(format("alertPreview", item.title));
+        void showArchiveModal({
+          title: t("noticePreviewTitle"),
+          body: format("alertPreview", item.title),
+          okLabel: t("modalOk"),
+          copyLabel: t("modalCopyLink"),
+        });
       }
     },
-    [format]
+    [format, t]
   );
 
   const onShareCard = useCallback(
     (item: DisplayCard) => {
-      void shareOrCopyLink(item.title, item.link).catch(() => {
-        window.alert(t("alertShareFailed"));
+      void shareOrCopyLink(item.title, item.link, {
+        copiedTitle: t("shareModalCopiedTitle"),
+        copiedBody: t("shareModalCopiedBody"),
+        manualTitle: t("shareModalManualTitle"),
+        manualBody: t("shareModalManualBody"),
+        okLabel: t("modalOk"),
+        copyLabel: t("modalCopyLink"),
+      }).catch(() => {
+        void showArchiveModal({
+          title: t("shareModalErrorTitle"),
+          body: t("alertShareFailed"),
+          okLabel: t("modalOk"),
+          copyLabel: t("modalCopyLink"),
+        });
       });
     },
     [t]
@@ -1075,6 +1178,81 @@ export function ArchiveApp() {
           </div>
         </div>
       </footer>
+
+      {notice ? (
+        <div
+          className={[
+            "archive-modal-backdrop",
+            notice.copySuccess && "archive-modal-backdrop--success",
+            notice.copySuccess &&
+              noticeSuccessExiting &&
+              "archive-modal-backdrop--success-leaving",
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          role="presentation"
+          onClick={dismissNotice}
+        >
+          <div
+            className={[
+              "archive-modal-dialog",
+              notice.copySuccess && "archive-modal-dialog--success",
+              notice.copySuccess &&
+                noticeSuccessExiting &&
+                "archive-modal-dialog--success-leaving",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            role={notice.copySuccess ? "status" : "dialog"}
+            aria-live={notice.copySuccess ? "polite" : undefined}
+            aria-modal={notice.copySuccess ? undefined : true}
+            aria-labelledby="archive-modal-title"
+            onClick={(e) => e.stopPropagation()}
+            onAnimationEnd={notice.copySuccess ? onSuccessToastAnimEnd : undefined}
+          >
+            {notice.copySuccess ? (
+              <div className="archive-modal-success-icon" aria-hidden>
+                <i className="fas fa-check-circle" />
+              </div>
+            ) : null}
+            <h2 id="archive-modal-title" className="archive-modal-title">
+              {notice.title}
+            </h2>
+            <p
+              className={`archive-modal-body${notice.copySuccess ? " archive-modal-body--success" : ""}`}
+            >
+              {notice.body}
+            </p>
+            {!notice.copySuccess && notice.url ? (
+              <div className="archive-modal-url-block">
+                <input
+                  type="text"
+                  readOnly
+                  className="archive-modal-url"
+                  value={notice.url}
+                  aria-label={notice.copyLabel}
+                />
+                <button
+                  type="button"
+                  className="archive-modal-copy"
+                  onClick={copyNoticeUrl}
+                >
+                  {notice.copyLabel}
+                </button>
+              </div>
+            ) : null}
+            {!notice.copySuccess ? (
+              <button
+                type="button"
+                className="archive-modal-ok"
+                onClick={dismissNotice}
+              >
+                {notice.okLabel}
+              </button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

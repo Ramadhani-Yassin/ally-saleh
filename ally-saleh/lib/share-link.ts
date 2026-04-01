@@ -1,3 +1,5 @@
+import { showArchiveModal } from "@/lib/archive-modal";
+
 /**
  * Copy text with Clipboard API, falling back to execCommand for older / non-secure contexts.
  */
@@ -38,12 +40,49 @@ function isAbortError(e: unknown): boolean {
   );
 }
 
+function toAbsoluteHref(href: string): string {
+  if (typeof window === "undefined") return href;
+  if (/^https?:\/\//i.test(href)) return href;
+  try {
+    return new URL(href, window.location.origin).href;
+  } catch {
+    return href;
+  }
+}
+
+/** Optional copy for the in-app modal (replaces `window.alert` / `window.prompt`). */
+export type ShareLinkModalLabels = {
+  copiedTitle: string;
+  copiedBody: string;
+  manualTitle: string;
+  manualBody: string;
+  okLabel: string;
+  copyLabel: string;
+};
+
+const defaultModalLabels: ShareLinkModalLabels = {
+  copiedTitle: "Link copied",
+  copiedBody:
+    "The address is on your clipboard. You can paste it into a message or document.",
+  manualTitle: "Copy this link",
+  manualBody:
+    "Automatic copy did not work. Select the link below or use the Copy button, then paste where you need it.",
+  okLabel: "OK",
+  copyLabel: "Copy link",
+};
+
 /**
  * Uses Web Share API when available; otherwise copies the URL to the clipboard.
- * Shows clear feedback via alert / prompt so the action always has a visible outcome.
+ * Uses the archive modal when registered (centered, styled); falls back to `alert` / `prompt`.
  */
-export async function shareOrCopyLink(title: string, url: string): Promise<void> {
-  const text = `${title}\n${url}`;
+export async function shareOrCopyLink(
+  title: string,
+  url: string,
+  labels?: Partial<ShareLinkModalLabels>
+): Promise<void> {
+  const L = { ...defaultModalLabels, ...labels };
+  const absUrl = toAbsoluteHref(url);
+  const text = `${title}\n${absUrl}`;
 
   if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
     const tryShare = async (data: ShareData) => {
@@ -51,7 +90,7 @@ export async function shareOrCopyLink(title: string, url: string): Promise<void>
     };
 
     try {
-      const withUrl: ShareData = { title, text, url };
+      const withUrl: ShareData = { title, text, url: absUrl };
       if (!navigator.canShare || navigator.canShare(withUrl)) {
         await tryShare(withUrl);
         return;
@@ -68,11 +107,25 @@ export async function shareOrCopyLink(title: string, url: string): Promise<void>
     }
   }
 
-  const copied = await copyTextRobust(url);
+  const copied = await copyTextRobust(absUrl);
   if (copied) {
-    window.alert(`Link copied — you can paste it anywhere:\n\n${url}`);
+    await showArchiveModal({
+      title: L.copiedTitle,
+      body: L.copiedBody,
+      okLabel: L.okLabel,
+      copyLabel: L.copyLabel,
+      copySuccess: true,
+      /** Visible time before powder fade-out (exit adds ~0.42s). */
+      autoDismissMs: 400,
+    });
     return;
   }
 
-  window.prompt(`Copy this link for “${title}”:`, url);
+  await showArchiveModal({
+    title: L.manualTitle,
+    body: L.manualBody,
+    url: absUrl,
+    okLabel: L.okLabel,
+    copyLabel: L.copyLabel,
+  });
 }

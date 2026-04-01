@@ -7,7 +7,7 @@
     .style-html-root {
       font-family: var(--font-inter), 'Inter', system-ui, -apple-system, BlinkMacSystemFont,
         'Segoe UI', sans-serif;
-      background: #fbfaf8;
+      background: #e7e5e1;
       color: #1a1919;
       scroll-behavior: smooth;
       transition: background 0.3s ease, color 0.2s ease;
@@ -94,7 +94,7 @@
       justify-content: center;
       gap: 0.35rem;
       border: 1px solid rgba(0, 0, 0, 0.14);
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(241, 239, 236, 0.92);
       color: #2a211c;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
       font-size: 0.72rem;
@@ -235,7 +235,7 @@
     .glass-nav {
       position: relative;
       z-index: 1;
-      background: rgba(251, 250, 248, 0.85);
+      background: rgba(231, 229, 225, 0.88);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -301,7 +301,7 @@
 
     .menu-toggle {
       display: none;
-      background: rgba(255, 255, 255, 0.75);
+      background: rgba(241, 239, 236, 0.92);
       border: 1px solid rgba(0, 0, 0, 0.12);
       color: #1a1919;
       width: 40px;
@@ -372,7 +372,7 @@
       align-items: center;
       justify-content: center;
       border: 1px solid rgba(0, 0, 0, 0.14);
-      background: rgba(255, 255, 255, 0.72);
+      background: rgba(241, 239, 236, 0.92);
       color: #2a211c;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
       transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
@@ -467,7 +467,7 @@
       width: 320px;
       min-width: 320px;
       max-width: 320px;
-      background: rgba(243, 239, 232, 0.55);
+      background: rgba(235, 232, 226, 0.65);
       border-radius: 2rem;
       padding: 1.1rem;
       box-shadow: 0 34px 56px -14px rgba(0, 0, 0, 0.28);
@@ -762,8 +762,8 @@
       max-width: 480px;
       padding: 0.9rem 1.2rem;
       border-radius: 60px;
-      border: 1px solid #e2e2e4;
-      background: white;
+      border: 1px solid #d4d2ce;
+      background: #ebe8e4;
       font-size: 0.95rem;
       transition: 0.2s;
       outline: none;
@@ -827,9 +827,9 @@
 
     /* ICON CARDS — category-specific icons */
     .card {
-      background: white;
+      background: #f0eeea;
       border-radius: 32px;
-      border: 1px solid #ece8e4;
+      border: 1px solid #e0dcd6;
       padding: 1.6rem;
       transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
@@ -932,7 +932,7 @@
     }
 
     .card-badge {
-      background: #f2ede8;
+      background: #e8e4de;
       padding: 0.25rem 0.9rem;
       border-radius: 40px;
       font-size: 0.7rem;
@@ -1034,10 +1034,10 @@
 
     /* Footer */
     .footer {
-      background: #f1efec;
+      background: #dedbd6;
       margin-top: 4rem;
       padding: 2.5rem 0;
-      border-top: 1px solid #e0dbd4;
+      border-top: 1px solid #cdc9c3;
     }
 
     .style-html-root.style-dark .footer {
@@ -1148,7 +1148,7 @@
       .glass-nav {
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
-        background: rgba(251, 250, 248, 0.96);
+        background: rgba(231, 229, 225, 0.96);
       }
       .style-html-root.style-dark .glass-nav {
         background: rgba(12, 12, 14, 0.94);
@@ -1197,7 +1197,7 @@
         gap: 0.9rem;
         padding: max(1rem, env(safe-area-inset-top)) 1rem 1rem;
         border-radius: 0 16px 16px 0;
-        background: rgba(251, 250, 248, 0.98);
+        background: rgba(231, 229, 225, 0.98);
         border: 1px solid rgba(0, 0, 0, 0.08);
         box-shadow: 0 20px 30px rgba(0, 0, 0, 0.24);
         transform: translateX(-100%);
@@ -1296,4 +1296,285 @@
         padding: 0.35rem 1rem;
         font-size: 0.8rem;
       }
+    }
+
+    /* In-app notice / share feedback (replaces native alert on desktop) */
+    .archive-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: max(1rem, env(safe-area-inset-bottom));
+      background: rgba(0, 0, 0, 0.48);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .archive-modal-dialog {
+      width: 100%;
+      max-width: 26.5rem;
+      padding: 1.4rem 1.35rem 1.15rem;
+      border-radius: 1.15rem;
+      background: #f0eeea;
+      border: 1px solid #d0cdc7;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.22);
+    }
+
+    .style-html-root.style-dark .archive-modal-dialog {
+      background: #1a1a1f;
+      border-color: #2f2f36;
+      box-shadow: 0 24px 56px rgba(0, 0, 0, 0.45);
+    }
+
+    .archive-modal-title {
+      margin: 0 0 0.75rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      text-align: center;
+      letter-spacing: -0.02em;
+      color: inherit;
+    }
+
+    .archive-modal-body {
+      margin: 0 0 1rem;
+      font-size: 0.92rem;
+      line-height: 1.55;
+      text-align: justify;
+      text-align-last: center;
+      color: #3a3a3a;
+    }
+
+    .style-html-root.style-dark .archive-modal-body {
+      color: #c4c4cc;
+    }
+
+    .archive-modal-url-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 420px) {
+      .archive-modal-url-block {
+        flex-direction: row;
+        align-items: stretch;
+      }
+    }
+
+    .archive-modal-url {
+      flex: 1;
+      min-width: 0;
+      padding: 0.5rem 0.65rem;
+      border-radius: 0.5rem;
+      border: 1px solid #c4c1c4;
+      background: #ebe8e4;
+      color: #1a1919;
+      font-size: 0.78rem;
+      font-family: ui-monospace, "Cascadia Code", monospace;
+    }
+
+    .style-html-root.style-dark .archive-modal-url {
+      border-color: #404048;
+      background: #121216;
+      color: #eaeef2;
+    }
+
+    .archive-modal-copy {
+      flex-shrink: 0;
+      padding: 0.5rem 0.95rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(196, 92, 44, 0.55);
+      background: rgba(196, 92, 44, 0.12);
+      color: #a03e1a;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .archive-modal-copy:hover {
+      background: rgba(196, 92, 44, 0.2);
+      border-color: #c45c2c;
+    }
+
+    .style-html-root.style-dark .archive-modal-copy {
+      border-color: rgba(230, 161, 122, 0.55);
+      color: #e6a17a;
+      background: rgba(196, 92, 44, 0.18);
+    }
+
+    .style-html-root.style-dark .archive-modal-copy:hover {
+      background: rgba(196, 92, 44, 0.28);
+      border-color: #e6a17a;
+    }
+
+    .archive-modal-ok {
+      display: block;
+      width: 100%;
+      margin-top: 0.2rem;
+      padding: 0.58rem 1rem;
+      border-radius: 0.65rem;
+      border: none;
+      background: #c45c2c;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: filter 0.2s ease, transform 0.15s ease;
+    }
+
+    .archive-modal-ok:hover {
+      filter: brightness(1.05);
+    }
+
+    .archive-modal-ok:active {
+      transform: scale(0.99);
+    }
+
+    @keyframes archive-modal-success-in {
+      from {
+        opacity: 0;
+        transform: scale(0.94) translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes archive-modal-success-out {
+      0% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0) brightness(1);
+      }
+      40% {
+        opacity: 0.9;
+        transform: scale(1.04) translateY(-4px);
+        filter: blur(2px) brightness(1.05);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.14) translateY(-18px);
+        filter: blur(16px) brightness(1.12);
+      }
+    }
+
+    @keyframes archive-modal-backdrop-success-out {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
+    .archive-modal-backdrop--success {
+      background: rgba(21, 83, 45, 0.26);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+
+    .archive-modal-backdrop--success-leaving {
+      animation: archive-modal-backdrop-success-out 0.36s ease-out forwards;
+      pointer-events: none;
+    }
+
+    .style-html-root.style-dark .archive-modal-backdrop--success {
+      background: rgba(34, 197, 94, 0.14);
+    }
+
+    .archive-modal-dialog--success {
+      max-width: 22.5rem;
+      padding: 1.35rem 1.4rem 1.2rem;
+      border: 1px solid rgba(34, 197, 94, 0.42);
+      background: linear-gradient(
+        168deg,
+        #ecfdf5 0%,
+        #d1fae5 52%,
+        #ecfdf5 100%
+      );
+      box-shadow: 0 20px 48px rgba(22, 101, 52, 0.22);
+      animation: archive-modal-success-in 0.16s cubic-bezier(0.2, 0.88, 0.32, 1)
+        forwards;
+      text-align: center;
+    }
+
+    .archive-modal-dialog--success.archive-modal-dialog--success-leaving {
+      animation: archive-modal-success-out 0.42s
+        cubic-bezier(0.42, 0, 0.65, 1) forwards;
+    }
+
+    .style-html-root.style-dark .archive-modal-dialog--success {
+      border-color: rgba(74, 222, 128, 0.38);
+      background: linear-gradient(
+        168deg,
+        #14532d 0%,
+        #166534 50%,
+        #14532d 100%
+      );
+      box-shadow: 0 22px 52px rgba(0, 0, 0, 0.42);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .archive-modal-dialog--success {
+        animation: none;
+        opacity: 1;
+      }
+
+      .archive-modal-dialog--success.archive-modal-dialog--success-leaving {
+        animation: none;
+        opacity: 0;
+        transition: opacity 0.12s ease-out;
+      }
+
+      .archive-modal-backdrop--success-leaving {
+        animation: none;
+        opacity: 0;
+        transition: opacity 0.12s ease-out;
+      }
+    }
+
+    .archive-modal-success-icon {
+      display: flex;
+      justify-content: center;
+      margin: 0 0 0.2rem;
+      line-height: 1;
+    }
+
+    .archive-modal-success-icon i {
+      font-size: 2.65rem;
+      color: #16a34a;
+      filter: drop-shadow(0 3px 10px rgba(22, 163, 74, 0.35));
+    }
+
+    .style-html-root.style-dark .archive-modal-success-icon i {
+      color: #4ade80;
+      filter: drop-shadow(0 3px 12px rgba(74, 222, 128, 0.28));
+    }
+
+    .archive-modal-dialog--success .archive-modal-title {
+      margin-bottom: 0.45rem;
+      color: #14532d;
+    }
+
+    .style-html-root.style-dark .archive-modal-dialog--success .archive-modal-title {
+      color: #bbf7d0;
+    }
+
+    .archive-modal-body--success {
+      margin-bottom: 0 !important;
+      text-align: center !important;
+      text-align-last: center !important;
+      color: #166534 !important;
+    }
+
+    .style-html-root.style-dark .archive-modal-body--success {
+      color: #d9f99d !important;
     }

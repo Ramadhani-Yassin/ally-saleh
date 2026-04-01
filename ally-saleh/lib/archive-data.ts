@@ -18,9 +18,8 @@ export type ArchiveWork = {
 export const STORAGE_WORKS_KEY = "ally_saleh_works_v3";
 export const STORAGE_THEME_KEY = "ally_saleh_theme";
 
-/** Placeholder base — replace each URL in admin when real links are ready. */
-const PLACEHOLDER_PDF =
-  "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+/** Placeholder when a PDF is not uploaded yet (`public/Publications/To_be_uploade.pdf`). */
+const PLACEHOLDER_PDF = `/Publications/${encodeURIComponent("To_be_uploade.pdf")}`;
 
 export const DEMO_WORKS: ArchiveWork[] = [
   {
@@ -42,7 +41,7 @@ export const DEMO_WORKS: ArchiveWork[] = [
     category: "poetry",
     title: "Tupo",
     description: "Kitabu cha mashairi — Ally Saleh.",
-    url: `${PLACEHOLDER_PDF}#tupo`,
+    url: `/Publications/Poetry/${encodeURIComponent("TUPO.pdf")}`,
   },
   {
     id: "poetry-kikohozi",
