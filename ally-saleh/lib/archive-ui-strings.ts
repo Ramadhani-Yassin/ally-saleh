@@ -41,6 +41,7 @@ export const ARCHIVE_I18N_KEYS = [
   "heroSlideAlt0",
   "heroSlideAlt1",
   "heroSlideAlt2",
+  "uhakikiReview",
 ] as const;
 
 export type ArchiveI18nKey = (typeof ARCHIVE_I18N_KEYS)[number];
@@ -91,6 +92,7 @@ export const ARCHIVE_EN: Record<ArchiveI18nKey, string> = {
   heroSlideAlt0: "Ally Saleh portrait",
   heroSlideAlt1: "Ally Saleh archive photo",
   heroSlideAlt2: "Ally Saleh publication archive",
+  uhakikiReview: "Review",
 };
 
 /** Swahili UI matching the provided full-page copy (static, instant toggle). */
@@ -141,4 +143,5 @@ export const ARCHIVE_SW: Record<ArchiveI18nKey, string> = {
   heroSlideAlt0: "Picha ya Ally Saleh",
   heroSlideAlt1: "Picha ya Ally Saleh katika kumbukumbu",
   heroSlideAlt2: "Machapisho ya Ally Saleh",
+  uhakikiReview: "review",
 };

@@ -35,6 +35,7 @@ export function ManagePanel() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [url, setUrl] = useState("");
+  const [uhakikiUrl, setUhakikiUrl] = useState("");
   const [page, setPage] = useState(1);
   const [listSearch, setListSearch] = useState("");
   const [listCategory, setListCategory] = useState<ListCategoryFilter>("all");
@@ -59,6 +60,7 @@ export function ManagePanel() {
     setTitle(work.title);
     setDescription(work.description);
     setUrl(work.url);
+    setUhakikiUrl(work.uhakikiUrl ?? "");
     setEditId(id);
     window.alert(`Editing "${work.title}". Save with Add / update.`);
   }
@@ -71,6 +73,7 @@ export function ManagePanel() {
       setTitle("");
       setDescription("");
       setUrl("");
+      setUhakikiUrl("");
       setCategory("poetry");
     }
     persist(next);
@@ -98,21 +101,34 @@ export function ManagePanel() {
     }
 
     const wasEdit = Boolean(editId);
+    const entryId = editId ?? generateId();
     let next = [...works];
     if (editId) {
       next = next.filter((w) => w.id !== editId);
       setEditId(null);
     }
-    next.push({
-      id: generateId(),
+    const entry: ArchiveWork = {
+      id: entryId,
       category,
       title: t,
       description: desc || "No description",
       url: u,
-    });
+    };
+    if (category !== "resource") {
+      const uh = uhakikiUrl.trim();
+      if (uh) {
+        if (!uh.startsWith("http://") && !uh.startsWith("https://")) {
+          window.alert("Uhakiki link must start with http:// or https://");
+          return;
+        }
+        entry.uhakikiUrl = uh;
+      }
+    }
+    next.push(entry);
     setTitle("");
     setDescription("");
     setUrl("");
+    setUhakikiUrl("");
     setCategory("poetry");
     persist(next);
     appendActivityLog(
@@ -131,6 +147,7 @@ export function ManagePanel() {
     setTitle("");
     setDescription("");
     setUrl("");
+    setUhakikiUrl("");
     setCategory("poetry");
     persist([...DEMO_WORKS]);
     appendActivityLog("Archive restored to demo data");
@@ -206,6 +223,22 @@ export function ManagePanel() {
             />
           </div>
         </div>
+        {(category === "poetry" || category === "short-story") && (
+          <div className="form-row">
+            <div className="form-group">
+              <label>
+                <i className="bx bx-check-circle" aria-hidden /> Uhakiki / review
+                URL (optional)
+              </label>
+              <input
+                type="text"
+                placeholder="https://… (overrides auto-linked review if set)"
+                value={uhakikiUrl}
+                onChange={(e) => setUhakikiUrl(e.target.value)}
+              />
+            </div>
+          </div>
+        )}
         <div className="admin-actions-bar">
           <button type="button" className="btn-primary" onClick={addOrUpdateWork}>
             <i className="bx bx-plus-circle" aria-hidden />

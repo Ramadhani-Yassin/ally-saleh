@@ -8,6 +8,11 @@ export type ArchiveWork = {
   /** Optional Swahili description when `description` is English-only (e.g. “Shared video”). */
   descriptionSw?: string;
   url: string;
+  /**
+   * Optional link to an external uhakiki / review article. If omitted, a default
+   * mapping from book `id` → matching online resource may still apply (see `resolveUhakikiUrl`).
+   */
+  uhakikiUrl?: string;
 };
 
 export const STORAGE_WORKS_KEY = "ally_saleh_works_v3";
@@ -119,6 +124,27 @@ export const DEMO_WORKS: ArchiveWork[] = [
     url: "https://share.google/f6NE45Cgaa0EPDE1Y",
   },
   {
+    id: "res-tupo-ghassani",
+    category: "resource",
+    title: "TUPO: Diwani ya Tungo Twiti",
+    description: "Mohammed Ghassani — WordPress.",
+    url: "https://mohammedghassani.wordpress.com/2018/03/20/tupo-diwani-ya-tungo-twiti/#more-10723",
+  },
+  {
+    id: "res-kalamu-ally-saleh-la-kuvunda",
+    category: "resource",
+    title: "Kalamu ya Ally Saleh kwenye ‘La Kuvunda’",
+    description: "Mohammed Ghassani — shared link.",
+    url: "https://share.google/Cienrb6fQf4WaGZT2",
+  },
+  {
+    id: "res-maisha-ya-haji-gora-msanii-atayedumu",
+    category: "resource",
+    title: "Maisha ya Haji Gora: Msanii Atayedumu Milele",
+    description: "Mohammed Ghassani — shared link.",
+    url: "https://share.google/HKdHQWEgqCEGcogl2",
+  },
+  {
     id: "res-la-kuvunda-ghassani",
     category: "resource",
     title: "La Kuvunda",
@@ -131,6 +157,36 @@ export function generateId(): string {
   return (
     Date.now().toString(36) + Math.random().toString(36).slice(2, 8)
   );
+}
+
+/** Book work id → online resource id (uhakiki / related review in `DEMO_WORKS`). */
+const UHKIKI_RESOURCE_ID_BY_BOOK_ID: Record<string, string> = {
+  "poetry-tupo": "res-tupo-ghassani",
+  /** Part I (WordPress); Part II remains a separate online card. */
+  "story-jumba-maro": "res-uhakiki-jumba-1",
+  "story-la-kuvunda": "res-kalamu-ally-saleh-la-kuvunda",
+  "story-maisha-ya-haji-gora": "res-maisha-ya-haji-gora-msanii-atayedumu",
+};
+
+function isHttpUrl(s: string): boolean {
+  return s.startsWith("http://") || s.startsWith("https://");
+}
+
+/** Review / uhakiki URL for a poetry or short-story card, or `undefined` if none. */
+export function resolveUhakikiUrl(
+  work: ArchiveWork,
+  allWorks: ArchiveWork[]
+): string | undefined {
+  if (work.category === "resource") return undefined;
+  const manual = work.uhakikiUrl?.trim();
+  if (manual && isHttpUrl(manual)) return manual;
+  const resourceId = UHKIKI_RESOURCE_ID_BY_BOOK_ID[work.id];
+  if (!resourceId) return undefined;
+  const res = allWorks.find(
+    (w) => w.id === resourceId && w.category === "resource"
+  );
+  const u = res?.url?.trim();
+  return u && isHttpUrl(u) ? u : undefined;
 }
 
 function normalizeCategory(raw: unknown): WorkCategory | null {

@@ -861,6 +861,23 @@
       transform: scale(1.05);
     }
 
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.65rem;
+      width: 100%;
+    }
+
+    .card-head .card-icon {
+      flex: 0 0 auto;
+    }
+
+    .card-head .uhakiki-btn {
+      flex: 0 0 auto;
+      margin-left: auto;
+    }
+
     /* category specific icon colors (include <i> so globals / FA never flatten contrast) */
     .card[data-type="Poetry"] .card-icon,
     .card[data-type="Poetry"] .card-icon i {
@@ -931,6 +948,52 @@
 
     .card-badge i {
       font-size: 0.65rem;
+    }
+
+    .uhakiki-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      width: fit-content;
+      max-width: min(100%, 11rem);
+      margin: 0;
+      padding: 0.3rem 0.65rem;
+      border-radius: 999px;
+      border: 1px solid rgba(22, 163, 74, 0.45);
+      background: rgba(22, 163, 74, 0.1);
+      color: #15803d !important;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .uhakiki-btn i {
+      color: #16a34a;
+      font-size: 0.95rem;
+    }
+
+    .uhakiki-btn:hover {
+      background: rgba(22, 163, 74, 0.18);
+      border-color: rgba(22, 163, 74, 0.65);
+      transform: translateX(1px);
+    }
+
+    .style-html-root.style-dark .uhakiki-btn {
+      border-color: rgba(74, 222, 128, 0.4);
+      background: rgba(74, 222, 128, 0.12);
+      color: #86efac !important;
+    }
+
+    .style-html-root.style-dark .uhakiki-btn i {
+      color: #4ade80;
+    }
+
+    .style-html-root.style-dark .uhakiki-btn:hover {
+      background: rgba(74, 222, 128, 0.2);
+      border-color: rgba(74, 222, 128, 0.55);
     }
 
     .card-actions {

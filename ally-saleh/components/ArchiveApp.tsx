@@ -15,6 +15,7 @@ import type { ArchiveI18nKey } from "@/lib/archive-ui-strings";
 import { NavLangToggle } from "@/components/NavLangToggle";
 import {
   STORAGE_THEME_KEY,
+  resolveUhakikiUrl,
   type ArchiveWork,
   type WorkCategory,
 } from "@/lib/archive-data";
@@ -99,6 +100,8 @@ type DisplayCard = {
   title: string;
   desc: string;
   link: string;
+  /** External uhakiki / review link (books only). */
+  uhakikiUrl?: string;
 };
 
 function categoryToDisplayType(cat: WorkCategory): DisplayCard["type"] {
@@ -107,7 +110,11 @@ function categoryToDisplayType(cat: WorkCategory): DisplayCard["type"] {
   return "Online";
 }
 
-function workToCard(w: ArchiveWork, lang: "en" | "sw"): DisplayCard {
+function workToCard(
+  w: ArchiveWork,
+  lang: "en" | "sw",
+  allWorks: ArchiveWork[]
+): DisplayCard {
   const cat = w.category;
   const desc =
     lang === "sw" && w.descriptionSw ? w.descriptionSw : w.description;
@@ -117,6 +124,7 @@ function workToCard(w: ArchiveWork, lang: "en" | "sw"): DisplayCard {
     title: w.title,
     desc,
     link: w.url,
+    uhakikiUrl: resolveUhakikiUrl(w, allWorks),
   };
 }
 
@@ -156,8 +164,22 @@ function ArchiveListingCard({
         : "fa-globe";
   return (
     <div className="card" data-type={item.type}>
-      <div className="card-icon">
-        <i className={`fas ${iconClass}`} />
+      <div className="card-head">
+        <div className="card-icon">
+          <i className={`fas ${iconClass}`} />
+        </div>
+        {item.uhakikiUrl ? (
+          <button
+            type="button"
+            className="uhakiki-btn"
+            onClick={() => {
+              window.open(item.uhakikiUrl, "_blank", "noopener,noreferrer");
+            }}
+          >
+            <i className="fas fa-check-circle" aria-hidden />
+            {t("uhakikiReview")}
+          </button>
+        ) : null}
       </div>
       <div className="card-title">{item.title}</div>
       <div className="card-desc">{item.desc}</div>
@@ -211,7 +233,7 @@ export function ArchiveApp() {
   const slideElsRef = useRef<Array<HTMLElement | null>>([]);
 
   const cards = useMemo(
-    () => works.map((w) => workToCard(w, lang)),
+    () => works.map((w) => workToCard(w, lang, works)),
     [works, lang]
   );
 
