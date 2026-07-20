@@ -3,7 +3,7 @@ export const CONTENT_KEYS = [
   "navHome", "navAbout", "navWorks", "navImpact", "navSpeaking", "navGallery", "navTestimonials", "navContact",
   "navPoetry", "navShortStories", "navOnline",
   /* Hero */
-  "heroPhrase1Prefix", "heroPhrase1Highlight", "heroPhrase2Prefix", "heroPhrase2Highlight",
+  "heroPhrase1Prefix", "heroPhrase1Highlight", "heroPhrase2Prefix", "heroPhrase2Highlight", "heroPhrase3Prefix", "heroPhrase3Highlight",
   "heroDescription", "heroBtnJourney", "heroBtnWorks", "heroScroll",
   /* About */
   "aboutLabel", "aboutHeading1", "aboutHeading1Highlight", "aboutHeading2", "aboutHeading2Highlight",
@@ -68,10 +68,12 @@ export const CONTENT_EN: Record<ContentKey, string> = {
   navOnline: "Online",
 
   /* Hero */
-  heroPhrase1Prefix: "Words that",
-  heroPhrase1Highlight: "Inspire",
+  heroPhrase1Prefix: "Stories that",
+  heroPhrase1Highlight: "Matter",
   heroPhrase2Prefix: "Leadership that",
-  heroPhrase2Highlight: "Serves",
+  heroPhrase2Highlight: "Unites",
+  heroPhrase3Prefix: "Change that",
+  heroPhrase3Highlight: "Lasts",
   heroDescription:
     "A Zanzibari poet, author, lawyer, journalist, and public leader dedicated to the intersection of literature, public service, and the empowerment of his community.",
   heroBtnJourney: "Explore My Journey",
@@ -220,10 +222,12 @@ export const CONTENT_SW: Record<ContentKey, string> = {
   navOnline: "Mtandaoni",
 
   /* Hero */
-  heroPhrase1Prefix: "Maneno",
-  heroPhrase1Highlight: "Yanayohamasisha",
+  heroPhrase1Prefix: "Hadithi",
+  heroPhrase1Highlight: "Zinazojalika",
   heroPhrase2Prefix: "Uongozi",
-  heroPhrase2Highlight: "Unaotumikia",
+  heroPhrase2Highlight: "Unaounganisha",
+  heroPhrase3Prefix: "Mabadiliko",
+  heroPhrase3Highlight: "Yanayodumu",
   heroDescription:
     "Mshairi, mwandishi, wakili, mwandishi wa habari, na kiongozi wa umma wa Kizanzibari aliyejitolea kwenye makutano ya fasihi, utumishi wa umma, na uwezeshaji wa jamii yake.",
   heroBtnJourney: "Gundua Safari Yangu",

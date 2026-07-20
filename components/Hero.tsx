@@ -34,6 +34,7 @@ export default function Hero() {
   const phrases = useMemo(() => [
     { prefix: tc("heroPhrase1Prefix"), highlight: tc("heroPhrase1Highlight") },
     { prefix: tc("heroPhrase2Prefix"), highlight: tc("heroPhrase2Highlight") },
+    { prefix: tc("heroPhrase3Prefix"), highlight: tc("heroPhrase3Highlight") },
   ], [tc]);
 
   const shuffledImages = useMemo(() => shuffleArray(HERO_IMAGES), []);
