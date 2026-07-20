@@ -111,7 +111,7 @@ export default function Hero() {
             >
               <a
                 href="#about"
-                className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-copper text-rich-black font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(184,115,51,0.3)]"
+                className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-soft-white text-rich-black font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 border border-soft-white hover:bg-copper hover:text-rich-black hover:border-copper hover:shadow-[0_0_40px_rgba(184,115,51,0.3)]"
               >
                 Explore My Journey
                 <ArrowDown size={16} className="group-hover:translate-y-1 transition-transform" />
