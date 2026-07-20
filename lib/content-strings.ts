@@ -72,7 +72,7 @@ export const CONTENT_EN: Record<ContentKey, string> = {
   heroPhrase1Highlight: "Matter",
   heroPhrase2Prefix: "Leadership that",
   heroPhrase2Highlight: "Unites",
-  heroPhrase3Prefix: "Change that",
+  heroPhrase3Prefix: "Change that never",
   heroPhrase3Highlight: "Lasts",
   heroDescription:
     "A Zanzibari poet, author, lawyer, journalist, and public leader dedicated to the intersection of literature, public service, and the empowerment of his community.",

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Ally Saleh | Poet, Author & Public Leader — Zanzibar",
     description:
-      "Stories that matter. Leadership that unites. Change that lasts. Explore the poetry, writings, and public leadership of Ally Saleh.",
+      "Stories that matter. Leadership that unites. Change that never lasts. Explore the poetry, writings, and public leadership of Ally Saleh.",
     type: "website",
     locale: "en_US",
     url: siteUrl,
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ally Saleh | Poet, Author & Public Leader — Zanzibar",
     description:
-      "Stories that matter. Leadership that unites. Change that lasts. Explore the poetry, writings, and public leadership of Ally Saleh.",
+      "Stories that matter. Leadership that unites. Change that never lasts. Explore the poetry, writings, and public leadership of Ally Saleh.",
     images: ["/images/Open_Graph_Image.png"],
   },
   robots: {
