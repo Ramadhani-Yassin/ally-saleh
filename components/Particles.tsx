@@ -70,7 +70,7 @@ export default function Particles() {
         const lifeOpacity = Math.min(p.opacity, p.opacity * (1 - p.life / p.maxLife));
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(184, 115, 51, ${lifeOpacity})`;
+        ctx.fillStyle = `rgba(212, 175, 55, ${lifeOpacity})`;
         ctx.fill();
       });
 

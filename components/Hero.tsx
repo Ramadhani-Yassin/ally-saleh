@@ -61,7 +61,7 @@ export default function Hero() {
     >
       <FloatingBlob
         className="absolute -top-1/3 -right-1/4"
-        color="rgba(184, 115, 51, 0.04)"
+        color="rgba(212, 175, 55, 0.04)"
         size={700}
       />
       <FloatingBlob
@@ -111,7 +111,7 @@ export default function Hero() {
             >
               <a
                 href="#about"
-                className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-soft-white text-rich-black font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 border border-soft-white hover:bg-copper hover:text-rich-black hover:border-copper hover:shadow-[0_0_40px_rgba(184,115,51,0.3)]"
+                className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-soft-white text-rich-black font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 border border-soft-white hover:bg-copper hover:text-rich-black hover:border-copper hover:shadow-[0_0_40px_rgba(212,175,55,0.3)]"
               >
                 {tc("heroBtnJourney")}
                 <ArrowDown size={16} className="group-hover:translate-y-1 transition-transform" />

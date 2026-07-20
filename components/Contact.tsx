@@ -206,7 +206,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="group mt-8 inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-copper text-rich-black font-medium text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(184,115,51,0.3)] disabled:opacity-50"
+                  className="group mt-8 inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-copper text-rich-black font-medium text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(212,175,55,0.3)] disabled:opacity-50"
                 >
                   {status === "sending" ? tc("btnSending") : tc("btnSubmit")}
                   <Send
@@ -220,10 +220,10 @@ export default function Contact() {
                     <div className="flex flex-col items-center gap-2">
                       <div className="w-10 h-10 rounded-full border border-copper/40 flex items-center justify-center">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B87333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
+                          <polyline points="20 6 9 17 4 12" stroke="#D4AF37" />
                         </svg>
                       </div>
-                      <span className="text-copper text-sm font-medium tracking-wider uppercase">{tc("sentSuccess")}</span>
+                      <span className="text-gold text-sm font-medium tracking-wider uppercase">{tc("sentSuccess")}</span>
                     </div>
                   </div>
                 )}

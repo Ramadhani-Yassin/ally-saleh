@@ -11,7 +11,7 @@ interface FloatingBlobProps {
 
 export default function FloatingBlob({
   className = "",
-  color = "rgba(184, 115, 51, 0.03)",
+  color = "rgba(212, 175, 55, 0.03)",
   size = 600,
   delay = 0,
 }: FloatingBlobProps) {

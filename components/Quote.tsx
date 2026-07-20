@@ -9,7 +9,7 @@ export default function QuoteSection() {
   return (
     <section className="relative py-32 lg:py-44 bg-deep-charcoal overflow-hidden">
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-[800px] h-[800px] rounded-full bg-gradient-radial from-copper/[0.02] to-transparent" />
+        <div className="w-[800px] h-[800px] rounded-full bg-gradient-radial from-gold/[0.02] to-transparent" />
       </div>
 
       <div className="relative max-w-4xl mx-auto px-4 sm:px-5 lg:px-6 text-center">
