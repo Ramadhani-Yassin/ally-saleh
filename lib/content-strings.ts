@@ -182,9 +182,9 @@ export const CONTENT_EN: Record<ContentKey, string> = {
   contactDescription:
     "Whether you'd like to collaborate, discuss ideas, or simply connect — reach out and let's make an impact together.",
   contactInfo1Label: "Email",
-  contactInfo1Value: "info@ally-saleh.com",
+  contactInfo1Value: "allysaleh126@gmail.com",
   contactInfo2Label: "Phone",
-  contactInfo2Value: "+255 777 000 000",
+  contactInfo2Value: "+255 777 430 022",
   contactInfo3Label: "Location",
   contactInfo3Value: "Zanzibar, Tanzania",
   contactFollowLabel: "Follow",
@@ -335,9 +335,9 @@ export const CONTENT_SW: Record<ContentKey, string> = {
   contactDescription:
     "Iwe ungependa kushirikiana, kujadili mawazo, au kuwasiliana tu — wasiliana nasi na tubadilishe jamii pamoja.",
   contactInfo1Label: "Barua Pepe",
-  contactInfo1Value: "info@ally-saleh.com",
+  contactInfo1Value: "allysaleh126@gmail.com",
   contactInfo2Label: "Simu",
-  contactInfo2Value: "+255 777 000 000",
+  contactInfo2Value: "+255 777 430 022",
   contactInfo3Label: "Mahali",
   contactInfo3Value: "Zanzibar, Tanzania",
   contactFollowLabel: "Tufuate",
