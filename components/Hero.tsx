@@ -137,6 +137,7 @@ export default function Hero() {
               transition={{ duration: 0.3 }}
               className="relative w-[min(70vw,22rem)] h-[min(85vw,28rem)] sm:w-[min(55vw,24rem)] sm:h-[min(65vw,30rem)] lg:w-[min(38vw,22rem)] lg:h-[min(46vw,28rem)] xl:w-[min(32vw,26rem)] xl:h-[min(40vw,32rem)] cursor-pointer bg-deep-charcoal"
             >
+              
               <AnimatePresence mode="wait">
                 <motion.div
                   key={imageIndex}
