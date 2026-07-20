@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "Ally Saleh | Poet, Author & Public Leader",
   description:
-    "Ally Saleh — Zanzibari politician, lawyer, journalist, poet, and author. Exploring the intersection of leadership, literature, and public service.",
+    "Ally Saleh — Zanzibari poet, author, lawyer, journalist, and political leader. Discover his collected works, poetry, and vision for public service.",
   keywords: [
     "Ally Saleh",
     "Zanzibar",
@@ -33,28 +33,28 @@ export const metadata: Metadata = {
     "Chwaka House",
   ],
   openGraph: {
-    title: "Ally Saleh | Poet, Author & Public Leader",
+    title: "Ally Saleh | Poet, Author & Public Leader — Zanzibar",
     description:
-      "Words that move. Leadership that serves. Zanzibar's voice in poetry, politics, and public service.",
+      "Stories that matter. Leadership that unites. Change that lasts. Explore the poetry, writings, and public leadership of Ally Saleh.",
     type: "website",
     locale: "en_US",
     url: siteUrl,
     siteName: "Ally Saleh",
     images: [
       {
-        url: "/Open_Graph_Image.png",
+        url: "/images/Open_Graph_Image.png",
         width: 1200,
         height: 630,
-        alt: "Ally Saleh",
+        alt: "Ally Saleh — Poet, Author & Public Leader",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ally Saleh | Poet, Author & Public Leader",
+    title: "Ally Saleh | Poet, Author & Public Leader — Zanzibar",
     description:
-      "Words that move. Leadership that serves. Zanzibar's voice in poetry, politics, and public service.",
-    images: ["/Open_Graph_Image.png"],
+      "Stories that matter. Leadership that unites. Change that lasts. Explore the poetry, writings, and public leadership of Ally Saleh.",
+    images: ["/images/Open_Graph_Image.png"],
   },
   robots: {
     index: true,

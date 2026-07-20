@@ -92,7 +92,7 @@ export default function Header() {
             onClick={toggleLang}
             className="px-3 py-1.5 text-xs tracking-wider uppercase border border-copper/30 text-copper hover:bg-copper/10 transition-all duration-300"
           >
-            {lang === "en" ? "SW" : "EN"}
+            {lang === "en" ? "🇹🇿 SW" : "🏴󠁧󠁢󠁥󠁮󠁧󠁿 EN"}
           </button>
           <button
             className="text-soft-white p-2"
