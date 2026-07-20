@@ -14,7 +14,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = "https://allysaleh.space";
+const siteUrl = "https://ally-saleh.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

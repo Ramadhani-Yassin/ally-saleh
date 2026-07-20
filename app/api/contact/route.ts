@@ -83,7 +83,7 @@ export async function POST(request: Request) {
           <tr>
             <td style="padding:24px 40px;text-align:center;">
               <p style="margin:0;font-size:11px;color:rgba(250,250,250,0.3);letter-spacing:1px;">
-                &copy; 2026 Ally Saleh — www.allysaleh.space
+                &copy; 2026 Ally Saleh — www.ally-saleh.com
               </p>
             </td>
           </tr>

@@ -43,7 +43,7 @@ export default function Contact() {
   };
 
   const contactInfo = [
-    { icon: Mail, label: tc("contactInfo1Label"), value: tc("contactInfo1Value"), href: "mailto:info@allysaleh.space" },
+    { icon: Mail, label: tc("contactInfo1Label"), value: tc("contactInfo1Value"), href: "mailto:info@ally-saleh.com" },
     { icon: Phone, label: tc("contactInfo2Label"), value: tc("contactInfo2Value"), href: "tel:+255777000000" },
     { icon: MapPin, label: tc("contactInfo3Label"), value: tc("contactInfo3Value") },
   ];

@@ -46,7 +46,7 @@ export const CONTENT_KEYS = [
   "contactFollowLabel",
   "formName", "formEmail", "formSubject", "formMessage",
   "btnSubmit", "btnSending", "sentSuccess", "sentError",
-  "socialInstagram", "socialFacebook", "socialLinkedIn",
+  "socialInstagram", "socialFacebook",
   /* Footer */
   "footerName", "footerTagline", "footerCredit", "footerCreditName",
 ] as const;
@@ -182,7 +182,7 @@ export const CONTENT_EN: Record<ContentKey, string> = {
   contactDescription:
     "Whether you'd like to collaborate, discuss ideas, or simply connect — reach out and let's make an impact together.",
   contactInfo1Label: "Email",
-  contactInfo1Value: "info@allysaleh.space",
+  contactInfo1Value: "info@ally-saleh.com",
   contactInfo2Label: "Phone",
   contactInfo2Value: "+255 777 000 000",
   contactInfo3Label: "Location",
@@ -198,7 +198,6 @@ export const CONTENT_EN: Record<ContentKey, string> = {
   sentError: "Failed to send. Please try again.",
   socialInstagram: "Instagram",
   socialFacebook: "Facebook",
-  socialLinkedIn: "LinkedIn",
 
   /* Footer */
   footerName: "ALLY SALEH",
@@ -336,7 +335,7 @@ export const CONTENT_SW: Record<ContentKey, string> = {
   contactDescription:
     "Iwe ungependa kushirikiana, kujadili mawazo, au kuwasiliana tu — wasiliana nasi na tubadilishe jamii pamoja.",
   contactInfo1Label: "Barua Pepe",
-  contactInfo1Value: "info@allysaleh.space",
+  contactInfo1Value: "info@ally-saleh.com",
   contactInfo2Label: "Simu",
   contactInfo2Value: "+255 777 000 000",
   contactInfo3Label: "Mahali",
@@ -352,7 +351,6 @@ export const CONTENT_SW: Record<ContentKey, string> = {
   sentError: "Imeshindwa kutuma. Tafadhali jaribu tena.",
   socialInstagram: "Instagram",
   socialFacebook: "Facebook",
-  socialLinkedIn: "LinkedIn",
 
   /* Footer */
   footerName: "ALLY SALEH",
