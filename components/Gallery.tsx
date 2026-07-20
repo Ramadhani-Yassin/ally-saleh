@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import ScrollReveal from "./ScrollReveal";
 import StaggerContainer, { StaggerItem } from "./StaggerContainer";
 import ImageModal from "./ImageModal";
+import { useLang } from "@/context/LanguageContext";
 
 const galleryImages = [
   { src: "/images/hero/Ally_saleh_.png", alt: "Ally Saleh Portrait" },
@@ -17,6 +18,7 @@ const galleryImages = [
 
 export default function Gallery() {
   const [selected, setSelected] = useState<number | null>(null);
+  const { tc } = useLang();
 
   const prev = () => setSelected((s) => s !== null ? (s - 1 + galleryImages.length) % galleryImages.length : null);
   const next = () => setSelected((s) => s !== null ? (s + 1) % galleryImages.length : null);
@@ -26,12 +28,12 @@ export default function Gallery() {
       <div className="max-w-7xl mx-auto px-4 sm:px-5 lg:px-6">
         <ScrollReveal>
           <div className="text-center mb-16">
-            <span className="text-gold text-sm tracking-[0.3em] uppercase font-medium">
-              Gallery
+            <span className="text-copper text-sm tracking-[0.3em] uppercase font-medium">
+              {tc("galleryLabel")}
             </span>
             <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-soft-white mt-6 leading-[1.15]">
-              Moments of{" "}
-              <span className="text-gradient">Presence</span>
+              {tc("galleryHeading")}{" "}
+              <span className="text-gradient">{tc("galleryHeadingHighlight")}</span>
             </h2>
           </div>
         </ScrollReveal>

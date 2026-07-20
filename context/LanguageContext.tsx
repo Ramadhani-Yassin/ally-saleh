@@ -6,12 +6,17 @@ import {
   ARCHIVE_SW,
   type ArchiveI18nKey,
 } from "@/lib/archive-ui-strings";
+import {
+  CONTENT_EN,
+  CONTENT_SW,
+  type ContentKey,
+} from "@/lib/content-strings";
 
 interface LangContextValue {
   lang: "en" | "sw";
   toggleLang: () => void;
   t: (key: ArchiveI18nKey) => string;
-  format: (key: ArchiveI18nKey, ...replacements: string[]) => string;
+  tc: (key: ContentKey) => string;
 }
 
 const LangContext = createContext<LangContextValue | null>(null);
@@ -34,20 +39,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     [lang]
   );
 
-  const format = useCallback(
-    (key: ArchiveI18nKey, ...replacements: string[]): string => {
-      let s = lang === "sw" ? ARCHIVE_SW[key] : ARCHIVE_EN[key];
-      for (const val of replacements) {
-        s = s.replace("%s", val);
-      }
-      return s;
+  const tc = useCallback(
+    (key: ContentKey): string => {
+      return lang === "sw" ? CONTENT_SW[key] : CONTENT_EN[key];
     },
     [lang]
   );
 
   const value = useMemo(
-    () => ({ lang, toggleLang, t, format }),
-    [lang, toggleLang, t, format]
+    () => ({ lang, toggleLang, t, tc }),
+    [lang, toggleLang, t, tc]
   );
 
   return (

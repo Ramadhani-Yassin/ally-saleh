@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowDown } from "lucide-react";
 import FloatingBlob from "./FloatingBlob";
 import ImageModal from "./ImageModal";
+import { useLang } from "@/context/LanguageContext";
 
 const HERO_IMAGES = [
   "/images/hero/Ally_saleh_.png",
@@ -13,11 +14,6 @@ const HERO_IMAGES = [
   "/images/hero/Ally.Saleh.jpg",
   "/images/hero/Ally-saleh.jpeg",
   "/images/hero/Ally-saleh_.jpeg",
-];
-
-const phrases = [
-  { prefix: "Words that", highlight: "Inspire" },
-  { prefix: "Leadership that", highlight: "Serves" },
 ];
 
 function shuffleArray<T>(arr: T[]): T[] {
@@ -33,6 +29,12 @@ export default function Hero() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [imageIndex, setImageIndex] = useState(0);
   const [imageOpen, setImageOpen] = useState(false);
+  const { tc } = useLang();
+
+  const phrases = useMemo(() => [
+    { prefix: tc("heroPhrase1Prefix"), highlight: tc("heroPhrase1Highlight") },
+    { prefix: tc("heroPhrase2Prefix"), highlight: tc("heroPhrase2Highlight") },
+  ], [tc]);
 
   const shuffledImages = useMemo(() => shuffleArray(HERO_IMAGES), []);
 
@@ -41,7 +43,7 @@ export default function Hero() {
       setPhraseIndex((prev) => (prev + 1) % phrases.length);
     }, 4000);
     return () => clearInterval(phraseInterval);
-  }, []);
+  }, [phrases.length]);
 
   useEffect(() => {
     const imageInterval = setInterval(() => {
@@ -98,9 +100,7 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="text-soft-white/60 text-base sm:text-lg lg:text-xl leading-relaxed max-w-lg mx-auto lg:mx-0 mb-8 sm:mb-12 font-light"
             >
-              A Zanzibari poet, author, lawyer, journalist, and public leader
-              dedicated to the intersection of literature, public service, and
-              the empowerment of his community.
+              {tc("heroDescription")}
             </motion.p>
 
             <motion.div
@@ -113,14 +113,14 @@ export default function Hero() {
                 href="#about"
                 className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-soft-white text-rich-black font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 border border-soft-white hover:bg-copper hover:text-rich-black hover:border-copper hover:shadow-[0_0_40px_rgba(184,115,51,0.3)]"
               >
-                Explore My Journey
+                {tc("heroBtnJourney")}
                 <ArrowDown size={16} className="group-hover:translate-y-1 transition-transform" />
               </a>
               <a
                 href="#books"
                 className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-copper/30 text-soft-white font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 hover:bg-copper/10 hover:border-copper/60"
               >
-                View My Works
+                {tc("heroBtnWorks")}
               </a>
             </motion.div>
           </motion.div>
@@ -181,7 +181,7 @@ export default function Hero() {
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             className="flex flex-col items-center gap-2 text-copper/40 hover:text-copper/70 transition-colors cursor-pointer"
           >
-            <span className="text-[10px] tracking-[0.2em] uppercase">Scroll</span>
+            <span className="text-[10px] tracking-[0.2em] uppercase">{tc("heroScroll")}</span>
             <ArrowDown size={16} />
           </motion.div>
         </motion.div>
