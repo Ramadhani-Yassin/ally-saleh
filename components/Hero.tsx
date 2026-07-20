@@ -135,7 +135,7 @@ export default function Hero() {
               onClick={() => setImageOpen(true)}
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
-              className="relative w-[min(70vw,22rem)] h-[min(85vw,28rem)] sm:w-[min(55vw,24rem)] sm:h-[min(65vw,30rem)] lg:w-[min(38vw,22rem)] lg:h-[min(46vw,28rem)] xl:w-[min(32vw,26rem)] xl:h-[min(40vw,32rem)] cursor-pointer"
+              className="relative w-[min(70vw,22rem)] h-[min(85vw,28rem)] sm:w-[min(55vw,24rem)] sm:h-[min(65vw,30rem)] lg:w-[min(38vw,22rem)] lg:h-[min(46vw,28rem)] xl:w-[min(32vw,26rem)] xl:h-[min(40vw,32rem)] cursor-pointer bg-deep-charcoal"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -146,8 +146,6 @@ export default function Hero() {
                   transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
                   className="absolute inset-0"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-gold/20 to-transparent z-10" />
-                  <div className="absolute -inset-4 bg-gold/5 rounded-full blur-3xl" />
                   <Image
                     src={currentImage}
                     alt="Ally Saleh"
