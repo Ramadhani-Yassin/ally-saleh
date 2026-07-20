@@ -59,12 +59,12 @@ export default function Hero() {
     >
       <FloatingBlob
         className="absolute -top-1/3 -right-1/4"
-        color="rgba(212, 175, 55, 0.04)"
+        color="rgba(184, 115, 51, 0.04)"
         size={700}
       />
       <FloatingBlob
         className="absolute -bottom-1/3 -left-1/4"
-        color="rgba(245, 233, 215, 0.03)"
+        color="rgba(212, 180, 140, 0.03)"
         size={600}
         delay={5}
       />
@@ -111,14 +111,14 @@ export default function Hero() {
             >
               <a
                 href="#about"
-                className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-gold text-rich-black font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(212,175,55,0.3)]"
+                className="group inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-copper text-rich-black font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(184,115,51,0.3)]"
               >
                 Explore My Journey
                 <ArrowDown size={16} className="group-hover:translate-y-1 transition-transform" />
               </a>
               <a
                 href="#books"
-                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-gold/30 text-soft-white font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 hover:bg-gold/10 hover:border-gold/60"
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-copper/30 text-soft-white font-medium text-xs sm:text-sm tracking-wider uppercase transition-all duration-300 hover:bg-copper/10 hover:border-copper/60"
               >
                 View My Works
               </a>
@@ -137,7 +137,6 @@ export default function Hero() {
               transition={{ duration: 0.3 }}
               className="relative w-[min(70vw,22rem)] h-[min(85vw,28rem)] sm:w-[min(55vw,24rem)] sm:h-[min(65vw,30rem)] lg:w-[min(38vw,22rem)] lg:h-[min(46vw,28rem)] xl:w-[min(32vw,26rem)] xl:h-[min(40vw,32rem)] cursor-pointer bg-deep-charcoal"
             >
-              
               <AnimatePresence mode="wait">
                 <motion.div
                   key={imageIndex}
@@ -180,7 +179,7 @@ export default function Hero() {
           <motion.div
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            className="flex flex-col items-center gap-2 text-gold/40 hover:text-gold/70 transition-colors cursor-pointer"
+            className="flex flex-col items-center gap-2 text-copper/40 hover:text-copper/70 transition-colors cursor-pointer"
           >
             <span className="text-[10px] tracking-[0.2em] uppercase">Scroll</span>
             <ArrowDown size={16} />

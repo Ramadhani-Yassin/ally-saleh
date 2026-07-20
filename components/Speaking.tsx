@@ -58,7 +58,7 @@ export default function Speaking() {
             <ScrollReveal delay={0.5}>
               <a
                 href="#contact"
-                className="group inline-flex items-center gap-2 mt-10 px-8 py-4 bg-gold text-rich-black font-medium text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(212,175,55,0.3)]"
+                className="group inline-flex items-center gap-2 mt-10 px-8 py-4 bg-gold text-rich-black font-medium text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(184,115,51,0.3)]"
               >
                 <Mic size={16} />
                 Get In Touch

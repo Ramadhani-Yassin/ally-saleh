@@ -219,7 +219,7 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="group mt-8 inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-gold text-rich-black font-medium text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(212,175,55,0.3)] disabled:opacity-50"
+                  className="group mt-8 inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-gold text-rich-black font-medium text-sm tracking-wider uppercase transition-all duration-300 hover:bg-soft-white hover:shadow-[0_0_40px_rgba(184,115,51,0.3)] disabled:opacity-50"
                 >
                   {status === "sending" ? "Sending..." : "Send Message"}
                   <Send

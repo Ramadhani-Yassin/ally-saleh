@@ -11,10 +11,11 @@ import QuoteSection from "@/components/Quote";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Particles from "@/components/Particles";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export default function Home() {
   return (
-    <>
+    <LanguageProvider>
       <Particles />
       <Header />
       <main>
@@ -30,6 +31,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </>
+    </LanguageProvider>
   );
 }

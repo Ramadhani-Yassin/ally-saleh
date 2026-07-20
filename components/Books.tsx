@@ -155,7 +155,7 @@ export default function Books() {
               const Icon = typeIcon[item.type];
               return (
                 <StaggerItem key={item.id}>
-                  <div className="group glass-card rounded-none p-6 flex flex-col h-full">
+                  <div className="group accent-card rounded-none p-6 flex flex-col h-full">
                     <div className="flex items-start justify-between mb-4">
                       <div className="w-10 h-10 rounded-full border border-gold/10 flex items-center justify-center flex-shrink-0">
                         <Icon size={18} className="text-gold/60" />
