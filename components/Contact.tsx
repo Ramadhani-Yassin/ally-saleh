@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { InstagramIcon, FacebookIcon, LinkedInIcon } from "./SocialIcons";
+import { InstagramIcon, FacebookIcon } from "./SocialIcons";
 import ScrollReveal from "./ScrollReveal";
 import { useLang } from "@/context/LanguageContext";
 
@@ -49,9 +49,8 @@ export default function Contact() {
   ];
 
   const socialLinks = [
-    { name: tc("socialInstagram"), icon: InstagramIcon, href: "#" },
-    { name: tc("socialFacebook"), icon: FacebookIcon, href: "#" },
-    { name: tc("socialLinkedIn"), icon: LinkedInIcon, href: "#" },
+    { name: tc("socialFacebook"), icon: FacebookIcon, href: "https://web.facebook.com/ally.saleh.5" },
+    { name: tc("socialInstagram"), icon: InstagramIcon, href: "https://www.instagram.com/allysaleh1512?igsh=bnNpOHRpMHBybHB2" },
   ];
 
   return (
